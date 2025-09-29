@@ -1,7 +1,7 @@
 import statusCodes from '../errors/status-codes.js';
 import BaseError from '../base_classes/base-error.js';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
+import prisma from '../config/db.js';
 
 const authToken = async (req, res, next) => {
     const authHeader = req.get('Authorization');
@@ -18,9 +18,10 @@ const authToken = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || '');
-    
-        const user = await User.findById(decoded.id, {
-            password: 0,
+
+        const user = await prisma.user.findUnique({
+            where: { user_id: decoded.id },
+            select: { password: false },
         });
         
         if (!user) {

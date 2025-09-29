@@ -2,7 +2,6 @@ import logger from "../utils/logger.js";
 import BaseError from "../base_classes/base-error.js";
 import StatusCodes from "../errors/status-codes.js";
 import { INVALID_CREDENTIALS, SERVER_PROBLEM } from "../errors/error-codes.js";
-import SystemLog from "../models/systemLog.js";
 // import User from "../models/user.js";
 import useragent from "useragent";
 import prisma from "../config/db.js";

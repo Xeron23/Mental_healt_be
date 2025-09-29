@@ -1,5 +1,4 @@
 import BaseError from "../../base_classes/base-error.js";
-import User from "../../models/user.js";
 import { generateVerifEmail } from "../../utils/bodyEmail.js";
 import sendEmail from "../../utils/sendEmail.js";
 import { parseJWT, generateToken } from "../../utils/jwtTokenConfig.js";
@@ -8,7 +7,6 @@ import prisma from "../../config/db.js";
 import bcrypt from "bcrypt";
 import { hashPassword, matchPassword } from "../../utils/passwordConfig.js";
 
-const salt = await bcrypt.genSalt(10)
 
 class AuthService {
     async login(username, password) {
