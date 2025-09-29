@@ -12,7 +12,7 @@ import morgan from "morgan";
 import multer from "multer";
 import path from "path";
 
-import connectDB from "./config/db.js";
+import prisma from "./config/db.js";
 import corsOptions from "./config/cors.js";
 import AuthRoutes from "./domains/auth/auth-routes.js";
 
@@ -106,13 +106,13 @@ class ExpressApplication {
 
     async start() {
         try {
-            await connectDB();
+            await prisma.$connect(); // langsung connect
             this.app.listen(this.port, () => {
                 logger.info(`🚀 Server running on port ${this.port}`);
             });
         } catch (error) {
-            logger.error("❌ Server failed to start:", error);
-            process.exit(1);
+                logger.error("❌ Server failed to start:", error);
+                process.exit(1);
         }
     }
 }
