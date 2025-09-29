@@ -44,14 +44,7 @@ const registerSchema = Joi.object({
             "string.min": "Password must be at least 8 characters long.",
             "string.pattern.base": "Password must be at least 8 characters long, contain at least 1 uppercase letter, and 1 special character."
         }),
-    phone_number: Joi.string()
-        .pattern(/^\+628\d{8,}$/) // Ensures it starts with +628 and has at least 11 digits
-        .required()
-        .messages({
-            "string.empty": "Phone number is required.",
-            "string.pattern.base": "Phone number must start with +628 and be at least 11 digits long."
-        }),
-    });
+});
     
 
 const profileSchema = Joi.object({
@@ -64,7 +57,7 @@ const profileSchema = Joi.object({
         .messages({
             "string.empty": "Phone number is required.",
         }),
-    })
+});
 
 const changePasswordSchema = Joi.object({
     old_password: Joi.string().required(),
