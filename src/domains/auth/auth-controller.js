@@ -51,9 +51,9 @@ class AuthController {
     }
 
     async updateProfile(req, res){
-        const { name, email, phone_number } = req.body;
+        const { name, email } = req.body;
 
-        const user = await AuthService.updateProfile(req.user.id, { name, email, phone_number });
+        const user = await AuthService.updateProfile(req.user.user_id, { name, email});
 
         if (!user) {
             throw Error("Failed to update user profile");
@@ -64,9 +64,13 @@ class AuthController {
 
 
     async updatePassword(req, res){
-        const { old_password, new_password } = req.body;
+        const { old_password, new_password, confirm_password } = req.body;
 
-        const message = await AuthService.updatePasswordProfile(req.app.locals.user.id, old_password, new_password);
+        if(new_password !== confirm_password){
+            throw Error("Failed to update user password")
+        }
+
+        const message = await AuthService.updatePasswordProfile(req.user.user_id, old_password, new_password);
 
         if (!message) {
             throw Error("Failed to update user password");
