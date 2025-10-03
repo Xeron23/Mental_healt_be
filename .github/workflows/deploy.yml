@@ -47,11 +47,3 @@ jobs:
               -e BE_URL="${{ secrets.BE_URL }}" \
               mental_healt
 
-              sleep 5  # opsional, tunggu beberapa detik supaya Node siap
-
-              # Generate Prisma client
-              docker exec mental_healt-server npx prisma generate
-
-              # Apply migration
-              docker exec mental_healt-server npx prisma migrate deploy
-
