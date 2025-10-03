@@ -35,7 +35,6 @@ jobs:
 
             # Run container baru dengan env & expose port
             docker run -d \
-              --no-cache \
               --name mental_healt-server \
               --network db-network \
               -p 3002:3002 \
