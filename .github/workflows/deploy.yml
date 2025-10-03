@@ -19,35 +19,35 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          port:28101
+          port: 28101
           script: |
             cd /opt/Mental_healt_be
 
-            # ambil kode terbaru
+            # Ambil kode terbaru
             git pull origin DEV
 
-            # build ulang image
+            # Build ulang image Docker
             docker build -t mental_healt .
 
-            # stop container lama kalau ada
+            # Stop & remove container lama kalau ada
             docker stop mental_healt-server || true
             docker rm mental_healt-server || true
 
-            # run container baru
+            # Run container baru dengan env & expose port
             docker run -d \
               --name mental_healt-server \
               --network db-network \
+              -p 3002:3002 \
               -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
               -e EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
               -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e PORT="${{ secrets.PORT }}" \
               -e BE_URL="${{ secrets.BE_URL }}" \
-              -p 3002:3002 \
               mental_healt
 
-            # generate prisma client (opsional, kalau belum generate)
+            # Generate Prisma client
             docker exec mental_healt-server npx prisma generate
 
-            # migrate database ke versi terbaru
+            # Apply database migration
             docker exec mental_healt-server npx prisma migrate deploy
