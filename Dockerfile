@@ -1,7 +1,5 @@
-# Gunakan Node.js 20
 FROM node:20
 
-# Set working directory
 WORKDIR /app
 
 # Copy package.json & package-lock.json
@@ -10,15 +8,17 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy seluruh source code
+# Copy seluruh source code termasuk prisma/schema.prisma
 COPY . .
 
-# Copy entrypoint script & beri permission
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
+# Pastikan prisma CLI executable
+RUN chmod +x ./node_modules/.bin/prisma
 
-# Expose port backend
+# Generate Prisma client di image build
+RUN npx prisma generate
+
+# Expose port
 EXPOSE 3002
 
-# Jalankan entrypoint
-CMD ["./entrypoint.sh"]
+# Jalankan aplikasi
+CMD ["npm", "start"]
