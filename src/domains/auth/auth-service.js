@@ -10,7 +10,7 @@ import { hashPassword, matchPassword } from "../../utils/passwordConfig.js";
 
 class AuthService {
     async login(username, password) {
-        let user = await prisma.user.find({
+        let user = await prisma.user.findFirst({
             where: {
                 username: username
             }
