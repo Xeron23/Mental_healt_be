@@ -22,7 +22,11 @@ class AuthRoutes extends BaseRoutes {
         this.router.post("/refresh-token", [
             validateCredentials(refreshTokenSchema),
             tryCatch(AuthController.refreshToken)
-        ])
+        ]),
+        this.router.get("/me", [
+            authToken,
+            tryCatch(AuthController.getProfile)
+        ]);
         this.router.put("/me/update", [
             authToken,
             validateCredentials(profileSchema),

@@ -49,8 +49,8 @@ class AuthService {
             throw BaseError.badRequest("Email not verified, Please check your email to verify your account.");
         }
 
-        const accessToken = generateToken(user.id, "1d");
-        const refreshToken = generateToken(user.id, "365d");
+        const accessToken = generateToken(user.user_id, "1d");
+        const refreshToken = generateToken(user.user_id, "365d");
 
         return { access_token: accessToken, refresh_token: refreshToken };
     }
@@ -161,7 +161,10 @@ class AuthService {
                 user_id: id
             },
             select: {
-                password: 0
+                user_id: true,
+                username: true,
+                email: true,
+                name: true
             }
         });
 
@@ -194,7 +197,11 @@ class AuthService {
     }
 
     async updatePasswordProfile(id, oldPassword, newPassword) {
-        const user = await User.findById(id);
+        const user = await prisma.user.findUnique({
+            where: {
+                user_id: id
+            }
+        })
 
         if (!user) {
             throw BaseError.notFound("User not found");
@@ -224,15 +231,16 @@ class AuthService {
     }
     
     async refreshToken(token) {
+        
         const decoded = parseJWT(token);
-
+        
         if (!decoded) {
             throw BaseError.unauthorized("Invalid token");
         }
 
         const user = await prisma.user.findUnique({
             where: {
-                user_id: decoded._id
+                user_id: decoded.id
             }
         });
 

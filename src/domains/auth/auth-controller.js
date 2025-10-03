@@ -40,6 +40,18 @@ class AuthController {
 
     }
 
+    async getProfile(req, res){
+        const {user_id} = req.user;
+
+        const user = await AuthService.getProfile(user_id);
+
+        if (!user) {
+            throw Error("Failed to get user profile");
+        }
+
+        return successResponse(res, user);
+    }
+
 
     async updatePassword(req, res){
         const { old_password, new_password } = req.body;
