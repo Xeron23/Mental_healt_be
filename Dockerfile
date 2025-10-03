@@ -10,7 +10,6 @@ COPY package*.json ./
 # Install build tools
 RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 
-RUN npx prisma generate
 
 # Install dependencies
 RUN npm install
@@ -18,6 +17,7 @@ RUN npm install
 # Copy semua kode ke image
 COPY . .
 
+RUN npx prisma generate
 # Expose port backend sesuai yang dipakai aplikasi
 EXPOSE 3002
 
