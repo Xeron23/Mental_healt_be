@@ -43,6 +43,7 @@ jobs:
               -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e PORT="${{ secrets.PORT }}" \
+              --restart unless-stopped \
               -e BE_URL="${{ secrets.BE_URL }}" \
               mental_healt
 
