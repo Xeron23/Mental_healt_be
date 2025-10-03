@@ -38,7 +38,7 @@ jobs:
               --name mental_healt-server \
               --network db-network \
               -p 3002:3002 \
-              -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e DATABASE_URL="postgresql://postgres:root@postgres-container-a:5432/mental_health_db?schema=public" \
               -e EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
               -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
