@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy package.json & package-lock.json (atau yarn.lock)
 COPY package*.json ./
 
+# Install build tools
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
+
 # Install dependencies
 RUN npm install
 
