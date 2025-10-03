@@ -43,7 +43,7 @@ jobs:
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e PORT="${{ secrets.PORT }}" \
               -e BE_URL="${{ secrets.BE_URL }}" \
-              -p 3002:3002 \ 
+              -p 3002:3002 \
               mental_healt
 
             # generate prisma client (opsional, kalau belum generate)
