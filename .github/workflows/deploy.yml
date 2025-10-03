@@ -19,6 +19,7 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          port:28101
           script: |
             cd /opt/Mental_healt_be
 
@@ -42,6 +43,7 @@ jobs:
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e PORT="${{ secrets.PORT }}" \
               -e BE_URL="${{ secrets.BE_URL }}" \
+              -p 3002:3002 \ 
               mental_healt
 
             # generate prisma client (opsional, kalau belum generate)
