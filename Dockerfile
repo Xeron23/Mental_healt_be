@@ -19,4 +19,4 @@ RUN npx prisma generate
 EXPOSE 3002
 
 # Jalankan aplikasi
-CMD ["node", "src/server.js"]
+CMD ["npm", "start"]
