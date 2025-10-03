@@ -1,25 +1,22 @@
-# Gunakan Node.js versi terbaru sesuai requirement package
 FROM node:20
 
-# Set working directory di dalam container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json & package-lock.json (atau yarn.lock)
+# Copy package.json & package-lock.json dulu
 COPY package*.json ./
-
-# Install build tools
-RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
-
 
 # Install dependencies
 RUN npm install
 
-# Copy semua kode ke image
+# Copy semua kode termasuk prisma/schema.prisma
 COPY . .
 
+# Pastikan prisma CLI sudah terinstall, lalu generate client
 RUN npx prisma generate
-# Expose port backend sesuai yang dipakai aplikasi
+
+# Expose port
 EXPOSE 3002
 
-# Command untuk jalankan aplikasi
-CMD ["npm", "start"]
+# Jalankan aplikasi
+CMD ["node", "src/server.js"]
