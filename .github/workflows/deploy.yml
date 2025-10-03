@@ -3,7 +3,7 @@ name: Auto Deploy Backend to VPS
 on:
   push:
     branches:
-      - DEV  # Ganti dengan branch deploy kamu
+      - DEV  # ganti sesuai branch deploy kamu
 
 jobs:
   deploy:
@@ -20,8 +20,32 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /opt/test-deploy-be/express-template-be
-            git pull origin main
-            docker-compose down
-            docker-compose up -d --build
-          debug: true
+            cd /opt/Mental_healt_be
+
+            # ambil kode terbaru
+            git pull origin DEV
+
+            # build ulang image
+            docker build -t mental_healt .
+
+            # stop container lama kalau ada
+            docker stop mental_healt-server || true
+            docker rm mental_healt-server || true
+
+            # run container baru
+            docker run -d \
+              --name mental_healt-server \
+              --network db-network \
+              -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+              -e EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
+              -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
+              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+              -e PORT="${{ secrets.PORT }}" \
+              -e BE_URL="${{ secrets.BE_URL }}" \
+              mental_healt
+
+            # generate prisma client (opsional, kalau belum generate)
+            docker exec mental_healt-server npx prisma generate
+
+            # migrate database ke versi terbaru
+            docker exec mental_healt-server npx prisma migrate deploy
