@@ -190,7 +190,13 @@ class AuthService {
             where: {
                 user_id: id
             },
-            data: data
+            data: data,
+            select: {
+                user_id: true,
+                username: true,
+                email: true,
+                name: true
+            }
         });
 
         return updatedUser;
