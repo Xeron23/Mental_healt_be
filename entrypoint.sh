@@ -1,15 +1,13 @@
 #!/bin/sh
-# entrypoint.sh
 
 # Generate Prisma client
 echo "Generating Prisma client..."
-npx prisma generate
-
-# Apply database migrations (opsional)
+./node_modules/.bin/prisma generate
+    
+# Apply database migrations
 echo "Applying database migrations..."
-npx prisma migrate deploy
+./node_modules/.bin/prisma migrate deploy
 
-# Jalankan aplikasi
+# Start app
 echo "Starting app..."
-
 npm start
