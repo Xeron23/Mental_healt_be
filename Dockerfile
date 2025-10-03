@@ -7,13 +7,11 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --include=dev
+RUN npm install
 
 # Copy semua kode termasuk prisma/schema.prisma
 COPY . .
 
-# Pastikan prisma CLI sudah terinstall, lalu generate client
-RUN npx prisma generate
 
 # Expose port
 EXPOSE 3002
