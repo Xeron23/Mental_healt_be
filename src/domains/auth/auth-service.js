@@ -10,7 +10,7 @@ import { hashPassword, matchPassword } from "../../utils/passwordConfig.js";
 
 class AuthService {
     async login(username, password) {
-        let user = await prisma.user.findUnique({
+        let user = await prisma.user.find({
             where: {
                 username: username
             }
@@ -232,7 +232,7 @@ class AuthService {
 
         const user = await prisma.user.findUnique({
             where: {
-                user_id: decoded.id
+                user_id: decoded._id
             }
         });
 
