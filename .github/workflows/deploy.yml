@@ -46,8 +46,3 @@ jobs:
               -e BE_URL="${{ secrets.BE_URL }}" \
               mental_healt
 
-            # Generate Prisma client
-            docker exec mental_healt-server npx prisma generate
-
-            # Apply database migration
-            docker exec mental_healt-server npx prisma migrate deploy
