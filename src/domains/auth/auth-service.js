@@ -4,29 +4,21 @@ import sendEmail from "../../utils/sendEmail.js";
 import { parseJWT, generateToken } from "../../utils/jwtTokenConfig.js";
 import joi from "joi";
 import prisma from "../../config/db.js";
-import bcrypt from "bcrypt";
 import { hashPassword, matchPassword } from "../../utils/passwordConfig.js";
 
 
 class AuthService {
-    async login(username, password) {
+    async login(email, password) {
         let user = await prisma.user.findFirst({
             where: {
-                username: username
+                email: email
             }
         });
 
         if (!user) {
-            user = await prisma.user.findUnique({
-                where: {
-                    email: username
-                }
-            });
-
-            if (!user) {
-                throw BaseError.badRequest("Invalid credentials");
-            }
+            throw BaseError.badRequest("Invalid credentials");
         }
+
 
         const isMatch = await matchPassword(password, user.password);
 
@@ -56,42 +48,19 @@ class AuthService {
     }
 
     async register(data) {
-
-        const usernameExist = await prisma.user.findUnique({
-            where: {
-                username: data.username
-            }
-        });
-
         const emailExist = await prisma.user.findUnique({
             where: {
                 email: data.email
             }
         });
 
-        if (usernameExist || emailExist) {
-            let validation = "";
-            let stack = [];
-
-            if (usernameExist) {
-                validation = "Username already taken.";
-
-                stack.push({
-                    message: "Username already taken.",
-                    path: ["username"]
-                });
-            }
-
-            if (emailExist) {
-                validation += "Email already taken.";
-
-                stack.push({
-                    message: "Email already taken.",
-                    path: ["email"]
-                });
-            }
+        if (emailExist) {
+            let validation = "Email already taken.";
+            let stack = [{
+                message: "Email already taken.",
+                path: ["email"]
+            }];
             throw new joi.ValidationError(validation, stack);
-            
         }
 
         data.password = await hashPassword(data.password);
@@ -162,9 +131,10 @@ class AuthService {
             },
             select: {
                 user_id: true,
-                username: true,
+                first_name: true,
+                last_name: true,
                 email: true,
-                name: true
+                phone_number: true
             }
         });
 
@@ -193,9 +163,9 @@ class AuthService {
             data: data,
             select: {
                 user_id: true,
-                username: true,
+                first_name: true,
                 email: true,
-                name: true
+                last_name: true,
             }
         });
 

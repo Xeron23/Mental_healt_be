@@ -40,6 +40,11 @@ jobs:
               -p 3002:3002 \
               -e DATABASE_URL="postgresql://postgres:rootpass@postgres-container-a:5432/mental_health_db?schema=public" \
               -e EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
+              -e S3_END_POINT="${{secrets.S3_END_POINT}}" \
+              -e IS3_REGION="${{secrets.IS3_REGION}}" \
+              -e IS3_ACCESS_KEY_ID="${{secrets.IS3_ACCESS_KEY_ID}}" \
+              -e IS3_SECRET_ACCESS_KEY_ID="${{secrets.IS3_SECRET_ACCESS_KEY_ID}}" \
+              -e IS3_BUCKET_NAME="${{secrets.IS3_BUCKET_NAME}}" \
               -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e PORT="${{ secrets.PORT }}" \

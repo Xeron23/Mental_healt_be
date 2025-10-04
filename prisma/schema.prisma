@@ -16,9 +16,12 @@ datasource db {
 
 model User {
   user_id    Int      @id @default(autoincrement())
-  username  String  @unique
+  first_name  String
+  last_name    String
+  // username  String  @unique
   email     String  @unique
-  name      String
+  // name      String
+  phone_number String  
   password   String
   logins     SystemLog[]
   detections FaceDetection[]

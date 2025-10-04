@@ -26,11 +26,10 @@ const authToken = async (req, res, next) => {
             },
             select: {
                 user_id: true,
-                username: true,
+                first_name: true,
+                last_name:true,
                 email: true,
-                name: true
             }
-            // select: { password: 0 },
         });
         
         
