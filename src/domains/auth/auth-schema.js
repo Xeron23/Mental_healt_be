@@ -17,7 +17,7 @@ const registerSchema = Joi.object({
     first_name: Joi.string().required().min(2)
         .messages({
             "string.empty": "First name is required.",
-            "string.min": "First name must be at least 4 characters long.",
+            "string.min": "First name must be at least 2 characters long.",
             "string.base": "First name can only contain letters and spaces."
     }),
     last_name: Joi.string().required().min(4)
