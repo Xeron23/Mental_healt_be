@@ -14,7 +14,7 @@ const loginSchema = Joi.object({
     });
 
 const registerSchema = Joi.object({
-    first_name: Joi.string().required().min(4)
+    first_name: Joi.string().required().min(2)
         .messages({
             "string.empty": "First name is required.",
             "string.min": "First name must be at least 4 characters long.",
@@ -53,10 +53,10 @@ const registerSchema = Joi.object({
     
 
 const profileSchema = Joi.object({
-    first_name : Joi.string().optional().min(4)
+    first_name : Joi.string().optional().min(2)
         .messages({
             "string.empty": "First name is required.",
-            "string.min": "First name must be at least 4 characters long."
+            "string.min": "First name must be at least 2 characters long."
     }),
     last_name : Joi.string().optional().min(4)
         .messages({
