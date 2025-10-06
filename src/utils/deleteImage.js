@@ -1,12 +1,13 @@
-import { DeleteObjectCommand } from "../config/minioS3.js";
+import { DeleteObjectCommand, s3 } from "../config/minioS3.js";
 
 async function deleteImage(key) {
   try {
+    const url = new URL(key).pathname.replace(/^\/soulspace\//, "");
     const command = new DeleteObjectCommand({
       Bucket: process.env.IS3_BUCKET_NAME,
-      Key: key, // nama file / path di bucket
+      Key: url
     });
-
+    
     await s3.send(command);
     console.log(`✅ File ${key} berhasil dihapus`);
   } catch (err) {

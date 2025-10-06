@@ -4,7 +4,7 @@ const faceSchema = Joi.object({
     id : Joi.number().required().min(1)
         .messages({
             "number.empty": "Id face is required.",
-            "number.min": "Id face must be at least 2 characters long."
+            "number.min": "Id face must be at least 1 number."
     }),
 });
 

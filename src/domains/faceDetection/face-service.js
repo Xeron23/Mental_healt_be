@@ -24,17 +24,26 @@ import BaseError from "../../base_classes/base-error.js";
     }
 
     async delete(id, user_id){
-        const deleted = await prisma.faceDetection.deleteMany({
-            where: {
-                detection_id: id,
-                userId: user_id
-            },
-        });
+
+        const [faceDetect, deleted] = await Promise.all([
+            prisma.faceDetection.findFirst({
+                where: {
+                    detection_id: id,
+                    userId: user_id
+                },
+            }),
+            prisma.faceDetection.deleteMany({
+                where: {
+                    detection_id: id,
+                    userId: user_id
+                },
+            }),
+        ]);
 
         if (deleted.count === 0) {
             throw BaseError.notFound("Data not found");
         }
-
+        await deleteImage(faceDetect.imageUrl);
         return {
             message: "Face deteceted deleted successfully"
         }
@@ -49,6 +58,7 @@ import BaseError from "../../base_classes/base-error.js";
         if(!faceDetect){
             throw BaseError.notFound("Data not found");
         }
+
         return faceDetect;
     }
 
@@ -82,7 +92,7 @@ import BaseError from "../../base_classes/base-error.js";
                 skip: data.offset ? Number(data.offset) : undefined,
                 take: data.limit ? Number(data.limit) : undefined,
                 where,
-                orderBy: { createdAt: "desc" },
+                orderBy: { createdAt: "asc" },
             }),
             prisma.faceDetection.count({ where }),
         ]);

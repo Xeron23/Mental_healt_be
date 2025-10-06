@@ -13,6 +13,10 @@ enum Mood {
   FEARFUL
 }
 
+// enum MeditationCategorie {
+//   "Mindfulness",
+// }
+
 generator client {
   provider = "prisma-client-js"
   // output   = "../src/generated/prisma"
@@ -72,7 +76,6 @@ model Journaling {
   title       String
   content     String
   mood        Mood @default(NEUTRAL)
-  topic       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

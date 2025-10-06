@@ -9,7 +9,7 @@ async function uploadImageUpload(req, res, next) {
     const file = req.files.image[0];
     try {
         const userId = req.user?.user_id || "guest";
-        const date = new Date().toISOString().split("T")[0];
+        const date = new Date().getTime();
 
         const command = new PutObjectCommand({
             Bucket: process.env.IS3_BUCKET_NAME,
