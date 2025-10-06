@@ -1,6 +1,6 @@
 const allowedOrigins = [
     "http://localhost:3000",
-    // "https://hiji.cciunitel.com"
+    "https://soulspace-rust.vercel.app"
 ];
 
 const corsOptions = {
