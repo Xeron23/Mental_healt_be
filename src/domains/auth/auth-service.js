@@ -14,14 +14,15 @@ class AuthService {
                 email: email
             }
         });
-
+        
         if (!user) {
             throw BaseError.badRequest("Invalid credentials");
         }
-
+        
+        
 
         const isMatch = await matchPassword(password, user.password);
-
+        
         if (!isMatch) {
             throw BaseError.badRequest("Invalid credentials");
         }

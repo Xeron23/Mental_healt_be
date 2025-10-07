@@ -27,7 +27,6 @@ class FaceController {
     }
 
     async index(req, res){
-        
         const payload = {...req.query, user_id: req.user.user_id}
 
         const {page=1, limit=10, user_id, mood, week, month} = payload;
@@ -37,7 +36,7 @@ class FaceController {
         const faceDetect = await FaceService.getAll({offset, limit, mood, user_id, week, month});
 
         if(!faceDetect){
-            throw Error("Failed to get show face detection data")
+            throw Error("Failed to get index face detection data")
         }
 
         return successResponse(res, faceDetect);

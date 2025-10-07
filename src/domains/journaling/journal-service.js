@@ -28,7 +28,8 @@ class JournalService{
                 journal_id: id
             }
         })
-
+        console.log(journal);
+        
         if(!journal){
             throw BaseError.notFound("Journal not found")
         }
@@ -66,7 +67,6 @@ class JournalService{
             }),
             prisma.journaling.count({where}),
         ]);
-
         if(total === 0){
             throw BaseError.notFound("Data journal not found");
         }
@@ -80,10 +80,13 @@ class JournalService{
                 journal_id: id
             }
         });
+        console.log(checkData);
+        
 
         if(!checkData){
             throw BaseError.notFound("Data not found");
         }
+        
         data.mood = await faceService.generateMood(true);
         const journal = await prisma.journaling.update({
             where: {
@@ -115,7 +118,7 @@ class JournalService{
             throw BaseError.notFound("Journal not found");
         }
         return {
-            message: "Jorunal deleted succesfully"
+            message: "Journal deleted succesfully"
         }
     }
 
