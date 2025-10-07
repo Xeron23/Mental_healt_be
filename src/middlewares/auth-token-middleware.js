@@ -5,9 +5,9 @@ import prisma from '../config/db.js';
 
 const authToken = async (req, res, next) => {
     const authHeader = req.get('Authorization');
-
+    
     const token = authHeader && authHeader.split(' ')[1];
-
+    
     if (token == null)
         throw new BaseError(
             401,
@@ -16,13 +16,22 @@ const authToken = async (req, res, next) => {
             'User Have Not Login',
         );
 
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || '');
-
+        
         const user = await prisma.user.findUnique({
-            where: { user_id: decoded.id },
-            select: { password: false },
+            where: { 
+                user_id: decoded.id
+            },
+            select: {
+                user_id: true,
+                first_name: true,
+                last_name:true,
+                email: true,
+            }
         });
+        
         
         if (!user) {
             return next(

@@ -15,6 +15,8 @@ import path from "path";
 import prisma from "./config/db.js";
 import corsOptions from "./config/cors.js";
 import AuthRoutes from "./domains/auth/auth-routes.js";
+import faceRoutes from "./domains/faceDetection/face-routes.js";
+import journalRoutes from "./domains/journaling/journal-routes.js";
 
 class ExpressApplication {
     app;
@@ -24,36 +26,8 @@ class ExpressApplication {
         this.app = express();
         this.port = port;
 
-        this.app.use(express.json({ type: "application/json", limit: "50mb" }));
-        this.app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 
-        this.app.use(cors(corsOptions));
-        //  __init__
-
-        this.configureAssets();
-        this.setupRoute();
-        this.setupMiddlewares([
-            errorHandler,
-            express.json(),
-            express.urlencoded(),
-            apicache.middleware("5 minutes"),
-        ]);
-
-        this.setupLibrary([
-            process.env.NODE_ENV === "development" ? morgan("dev") : "",
-            compression(),
-            helmet(),
-            // cors(),
-        ]);
-
-        this.fileStorage = multer.diskStorage({
-            destination: (req, file, cb) => {
-                cb(null, "public/images");
-            },
-            filename: (req, file, cb) => {
-                cb(null, new Date().getTime() + "-" + file.originalname);
-            },
-        });
+        this.fileStorage = multer.memoryStorage();
 
         this.fileFilter = (req, file, cb) => {
             if (
@@ -78,6 +52,30 @@ class ExpressApplication {
                 },
             ])
         );
+        
+        this.app.use(express.json({ type: "application/json", limit: "50mb" }));
+        this.app.use(express.urlencoded({ extended: false, limit: "50mb" }));
+
+        this.app.use(cors(corsOptions));
+        //  __init__
+
+        this.configureAssets();
+        this.setupRoute();
+        this.setupMiddlewares([
+            errorHandler,
+            express.json(),
+            express.urlencoded(),
+            apicache.middleware("5 minutes"),
+        ]);
+
+        this.setupLibrary([
+            process.env.NODE_ENV === "development" ? morgan("dev") : "",
+            compression(),
+            helmet(),
+            // cors(),
+        ]);
+
+        
     }
     
     setupMiddlewares(middlewaresArr) {
@@ -89,6 +87,10 @@ class ExpressApplication {
     setupRoute() {
         // Set Route here base (/api/v1)
         this.app.use("/api/v1/auth", AuthRoutes);
+
+        // bisa gambar atau video pake socket io
+        this.app.use("/api/v1/face-detection", faceRoutes)
+        this.app.use("/api/v1/journal", journalRoutes)
 
     }
 

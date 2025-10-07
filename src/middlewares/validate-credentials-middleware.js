@@ -1,7 +1,7 @@
 const validateCredentials =
-    (schema) =>
+    (schema, property="body") =>
     (req, res, next) => {
-        const validated = schema.validate(req.body, {
+        const validated = schema.validate(req[property], {
             abortEarly: false,
             errors: {
                 wrap: {

@@ -3,7 +3,7 @@ name: Auto Deploy Backend to VPS
 on:
   push:
     branches:
-      - DEV  # Ganti dengan branch deploy kamu
+      - DEV  # ganti sesuai branch deploy kamu
 
 jobs:
   deploy:
@@ -19,9 +19,37 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          port: 28101
           script: |
-            cd /opt/test-deploy-be/express-template-be
-            git pull origin main
-            docker-compose down
-            docker-compose up -d --build
-          debug: true
+            cd /opt/Mental_healt_be
+
+            # Ambil kode terbaru
+            git pull origin DEV
+
+            # Build ulang image Docker
+            docker build -t mental_healt .
+
+            # Stop & remove container lama kalau ada
+            docker stop mental_healt-server || true
+            docker rm mental_healt-server || true
+
+            # Run container baru dengan env & expose port
+            docker run -d \
+              --name mental_healt-server \
+              --network db-network \
+              -p 3002:3002 \
+              -e DATABASE_URL="postgresql://postgres:rootpass@postgres-container-a:5432/mental_health_db?schema=public" \
+              -e EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
+              -e S3_END_POINT="${{secrets.S3_END_POINT}}" \
+              -e IS3_REGION="${{secrets.IS3_REGION}}" \
+              -e IS3_ACCESS_KEY_ID="${{secrets.IS3_ACCESS_KEY_ID}}" \
+              -e IS3_SECRET_ACCESS_KEY_ID="${{secrets.IS3_SECRET_ACCESS_KEY_ID}}" \
+              -e IS3_BUCKET_NAME="${{secrets.IS3_BUCKET_NAME}}" \
+              -e EMAIL_PASSWORD="${{ secrets.EMAIL_PASSWORD }}" \
+              -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+              -e PORT="${{ secrets.PORT }}" \
+              -e FE_URL="${{secrets.FE_URL}}" \
+              --restart unless-stopped \
+              -e BE_URL="${{ secrets.BE_URL }}" \
+              mental_healt
+

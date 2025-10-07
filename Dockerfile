@@ -1,18 +1,24 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /app
 
-# Copy file package.json & package-lock.json (atau yarn.lock)
+# Copy package.json & package-lock.json
 COPY package*.json ./
 
-# Install dependencies (hanya production dependencies)
+# Install dependencies
 RUN npm install
 
-# Copy semua kode ke image
+# Copy seluruh source code termasuk prisma/schema.prisma
 COPY . .
 
-# Expose port backend (sesuai yang dipakai backend kamu)
-EXPOSE 3000
+# Pastikan prisma CLI executable
+RUN chmod +x ./node_modules/.bin/prisma
 
-# Command untuk jalankan aplikasi
+# Generate Prisma client di image build
+RUN npx prisma generate
+
+# Expose port
+EXPOSE 3002
+
+# Jalankan aplikasi
 CMD ["npm", "start"]

@@ -4,32 +4,25 @@ import sendEmail from "../../utils/sendEmail.js";
 import { parseJWT, generateToken } from "../../utils/jwtTokenConfig.js";
 import joi from "joi";
 import prisma from "../../config/db.js";
-import bcrypt from "bcrypt";
 import { hashPassword, matchPassword } from "../../utils/passwordConfig.js";
 
 
 class AuthService {
-    async login(username, password) {
-        let user = await prisma.user.findUnique({
+    async login(email, password) {
+        let user = await prisma.user.findFirst({
             where: {
-                username: username
+                email: email
             }
         });
-
+        
         if (!user) {
-            user = await prisma.user.findUnique({
-                where: {
-                    email: username
-                }
-            });
-
-            if (!user) {
-                throw BaseError.badRequest("Invalid credentials");
-            }
+            throw BaseError.badRequest("Invalid credentials");
         }
+        
+        
 
         const isMatch = await matchPassword(password, user.password);
-
+        
         if (!isMatch) {
             throw BaseError.badRequest("Invalid credentials");
         }
@@ -49,49 +42,26 @@ class AuthService {
             throw BaseError.badRequest("Email not verified, Please check your email to verify your account.");
         }
 
-        const accessToken = generateToken(user.id, "1d");
-        const refreshToken = generateToken(user.id, "365d");
+        const accessToken = generateToken(user.user_id, "1d");
+        const refreshToken = generateToken(user.user_id, "365d");
 
         return { access_token: accessToken, refresh_token: refreshToken };
     }
 
     async register(data) {
-
-        const usernameExist = await prisma.user.findUnique({
-            where: {
-                username: data.username
-            }
-        });
-
         const emailExist = await prisma.user.findUnique({
             where: {
                 email: data.email
             }
         });
 
-        if (usernameExist || emailExist) {
-            let validation = "";
-            let stack = [];
-
-            if (usernameExist) {
-                validation = "Username already taken.";
-
-                stack.push({
-                    message: "Username already taken.",
-                    path: ["username"]
-                });
-            }
-
-            if (emailExist) {
-                validation += "Email already taken.";
-
-                stack.push({
-                    message: "Email already taken.",
-                    path: ["email"]
-                });
-            }
+        if (emailExist) {
+            let validation = "Email already taken.";
+            let stack = [{
+                message: "Email already taken.",
+                path: ["email"]
+            }];
             throw new joi.ValidationError(validation, stack);
-            
         }
 
         data.password = await hashPassword(data.password);
@@ -161,7 +131,11 @@ class AuthService {
                 user_id: id
             },
             select: {
-                password: 0
+                user_id: true,
+                first_name: true,
+                last_name: true,
+                email: true,
+                phone_number: true
             }
         });
 
@@ -187,14 +161,24 @@ class AuthService {
             where: {
                 user_id: id
             },
-            data: data
+            data: data,
+            select: {
+                user_id: true,
+                first_name: true,
+                email: true,
+                last_name: true,
+            }
         });
 
         return updatedUser;
     }
 
     async updatePasswordProfile(id, oldPassword, newPassword) {
-        const user = await User.findById(id);
+        const user = await prisma.user.findUnique({
+            where: {
+                user_id: id
+            }
+        })
 
         if (!user) {
             throw BaseError.notFound("User not found");
@@ -224,8 +208,9 @@ class AuthService {
     }
     
     async refreshToken(token) {
+        
         const decoded = parseJWT(token);
-
+        
         if (!decoded) {
             throw BaseError.unauthorized("Invalid token");
         }
