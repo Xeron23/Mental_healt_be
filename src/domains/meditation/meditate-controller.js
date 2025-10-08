@@ -15,7 +15,7 @@ class MeditateController {
     }
 
     async index(req, res){
-        const id = parseInt(req.params.id, 10);
+        const id = parseInt(req.params.meditateId, 10);
         const meditate = await MeditateService.getById(id);
 
         if(!meditate){
@@ -26,7 +26,7 @@ class MeditateController {
     }
 
     async recommended(req, res){
-        const {limit=12} = req.query;
+        const {limit= 12} = req.query;
         const userId = req.user.user_id;
         const meditate = await MeditateService.getRecommendedMeditations({ userId, limit});
         

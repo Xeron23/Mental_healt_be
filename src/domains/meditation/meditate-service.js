@@ -56,6 +56,7 @@ class MeditateService {
         const sortedMeditations = Object.entries(freqMap)
             .sort((a, b) => a[1] - b[1]) // ascending by count
             .map(([id]) => parseInt(id));
+        
 
         // Ambil 75% dari behavior-based, 25% random
         const behaviorCount = Math.ceil(limit * 0.75);
@@ -66,19 +67,20 @@ class MeditateService {
         const rareIds = sortedMeditations.slice(0, half);
         const frequentIds = sortedMeditations.slice(-half);
         const selectedBehaviorIds = [...new Set([...rareIds, ...frequentIds])];
-
+        
         // Ambil detail meditation dari behavior
         const behaviorMeditations = await prisma.meditation.findMany({
             where: { meditation_id: { in: selectedBehaviorIds } },
             take: behaviorCount,
         });
 
+        const missingCount = limit -behaviorMeditations.length;
         // Ambil random meditation (yang tidak termasuk di behavior)
         const randomMeditations = await prisma.$queryRawUnsafe(`
-            SELECT * FROM "meditation"
+            SELECT * FROM "Meditation"
             WHERE "meditation_id" NOT IN (${selectedBehaviorIds.length ? selectedBehaviorIds.join(',') : '0'})
             ORDER BY RANDOM()
-            LIMIT ${randomCount};
+            LIMIT ${missingCount};
         `);
 
         // Gabungkan hasilnya
@@ -97,6 +99,14 @@ class MeditateService {
     }
 
     async create(data){
+        const checkMeditate = await prisma.meditation.findFirst({
+            where: {meditation_id: data.meditationId}
+        })
+
+        if(!checkMeditate){
+            throw BaseError.badRequest("Meditate not found");
+        }
+
         const userMeditate = await prisma.userMeditation.create({
             data: data
         })
