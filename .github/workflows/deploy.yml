@@ -54,5 +54,5 @@ jobs:
               mental_healt
           
             docker exec -i mental_healt-server npx prisma migrate deploy
-            dokcer exec -i mental_healt-server npx prisma db seed
+            docker exec -i mental_healt-server npx prisma db seed
 
