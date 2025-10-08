@@ -6,7 +6,7 @@ import validateCredentials from "../../middlewares/validate-credentials-middlewa
 
 class StatsRoutes extends BaseRoutes {
     routes() {
-        this.router.get("/:timeFrame", [
+        this.router.get("/", [
             authToken,
             tryCatch(statsController.getStats),
         ]);

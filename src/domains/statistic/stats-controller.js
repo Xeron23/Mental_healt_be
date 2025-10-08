@@ -3,7 +3,7 @@ import StatsService from './stats-service.js';
 
 class StatsController {
     async getStats(req, res) {
-        const {timeFrame = 'week' } = req.params;
+        const {timeFrame = 'week' } = req.query;
         const userId = req.user.user_id;
         const stats = await StatsService.getStats(userId, timeFrame);
 
