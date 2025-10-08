@@ -52,4 +52,6 @@ jobs:
               --restart unless-stopped \
               -e BE_URL="${{ secrets.BE_URL }}" \
               mental_healt
+          
+            docker exec -i mental_healt-server npx prisma migrate deploy
 

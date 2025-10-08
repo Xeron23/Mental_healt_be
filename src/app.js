@@ -17,6 +17,9 @@ import corsOptions from "./config/cors.js";
 import AuthRoutes from "./domains/auth/auth-routes.js";
 import faceRoutes from "./domains/faceDetection/face-routes.js";
 import journalRoutes from "./domains/journaling/journal-routes.js";
+import meditateRoutes from "./domains/meditation/meditate-routes.js";
+import newsRoutes from "./domains/news/news-routes.js";
+import videoRoutes from "./domains/video/video-routes.js";
 
 class ExpressApplication {
     app;
@@ -91,6 +94,9 @@ class ExpressApplication {
         // bisa gambar atau video pake socket io
         this.app.use("/api/v1/face-detection", faceRoutes)
         this.app.use("/api/v1/journal", journalRoutes)
+        this.app.use("/api/v1/meditation", meditateRoutes)
+        this.app.use("/api/v1/mindful-news", newsRoutes)
+        this.app.use("/api/v1/video", videoRoutes)
 
     }
 
