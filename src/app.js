@@ -20,6 +20,7 @@ import journalRoutes from "./domains/journaling/journal-routes.js";
 import meditateRoutes from "./domains/meditation/meditate-routes.js";
 import newsRoutes from "./domains/news/news-routes.js";
 import videoRoutes from "./domains/video/video-routes.js";
+import statsRoutes from "./domains/statistic/stats-routes.js";
 
 class ExpressApplication {
     app;
@@ -97,6 +98,7 @@ class ExpressApplication {
         this.app.use("/api/v1/meditation", meditateRoutes)
         this.app.use("/api/v1/mindful-news", newsRoutes)
         this.app.use("/api/v1/video", videoRoutes)
+        this.app.use("/api/v1/statistic", statsRoutes);
 
     }
 
