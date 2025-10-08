@@ -4,6 +4,11 @@ import prisma from "../src/config/db.js";
 const getRandomDuration = () => Math.floor(Math.random() * (10 - 5 + 1)) + 5;
 
 async function main() {
+console.log('🌱 Starting database seed...');
+  await prisma.$executeRawUnsafe(`
+    TRUNCATE TABLE "Meditation", "Video", "News" RESTART IDENTITY CASCADE;
+  `);
+
   await prisma.meditation.createMany({
     data: [
       // --- ANGER ---
