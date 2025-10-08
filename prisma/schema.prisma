@@ -39,7 +39,7 @@ model User {
   logins     SystemLog[]
   detections FaceDetection[]
   journals   Journaling[]
-  userMeditations userMeditation[]
+  userMeditations UserMeditation[]
   created_at DateTime @default(now())
   verifiedAt DateTime?
   updated_at DateTime @updatedAt
@@ -80,26 +80,49 @@ model Journaling {
   updatedAt   DateTime @updatedAt
 }
 
-model meditation {
+model Meditation {
   meditation_id Int      @id @default(autoincrement())
+  thumbnailUrl  String
   title         String
   description   String
   mediaUrl      String
   duration      Int
-  userMeditations userMeditation[]
+  userMeditations UserMeditation[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
 
-model userMeditation {
+model UserMeditation {
   id            Int      @id @default(autoincrement())
   user          User?    @relation(fields: [userId], references: [user_id])
   userId        Int?
-  meditation    meditation? @relation(fields: [meditationId], references: [meditation_id])
+  meditation    Meditation? @relation(fields: [meditationId], references: [meditation_id])
   meditationId  Int?
   // completedAt   DateTime @default(now())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+
+// news
+model News {
+  news_id     Int      @id @default(autoincrement())
+  title       String
+  description String
+  imageUrl    String
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// video
+model Video {
+  video_id    Int      @id @default(autoincrement())
+  title       String
+  description String
+  videoUrl    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 // chat
