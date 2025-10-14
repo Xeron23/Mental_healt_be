@@ -105,14 +105,14 @@ import BaseError from "../../base_classes/base-error.js";
     }
 
     async generateMood(image_url) {
-        const moods = ["HAPPY", "SAD", "ANGRY", "SURPRISED", "NEUTRAL", "FEARFUL"];
+        const moods = ["sad","joy","anger","fear"];
 
         if (image_url) {
             const randomIndex = Math.floor(Math.random() * moods.length);
             return moods[randomIndex];
         }
 
-        return "NEUTRAL";
+        return "joy";
     }
 }
 

@@ -3,19 +3,13 @@
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 enum Mood {
-  HAPPY
-  SAD
-  ANGRY
-  SURPRISED
-  NEUTRAL
-  FEARFUL
+  sad
+  joy
+  anger
+  fear
 }
 
-// enum MeditationCategorie {
-//   "Mindfulness",
-// }
 
 generator client {
   provider = "prisma-client-js"
@@ -39,6 +33,8 @@ model User {
   logins     SystemLog[]
   detections FaceDetection[]
   journals   Journaling[]
+  Post Post[]
+  Reply Reply[]
   userMeditations UserMeditation[]
   created_at DateTime @default(now())
   verifiedAt DateTime?
@@ -63,7 +59,7 @@ model FaceDetection {
   user              User?    @relation(fields: [userId], references: [user_id])
   userId            Int?
   imageUrl    String
-  mood        Mood @default(NEUTRAL)
+  mood        Mood 
   detectedAt  DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -75,7 +71,7 @@ model Journaling {
   userId      Int?
   title       String
   content     String
-  mood        Mood @default(NEUTRAL)
+  mood        Mood 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -126,8 +122,24 @@ model Video {
 }
 
 // chat
+model Post {
+  id          Int          @id @default(autoincrement())
+  user        User?        @relation(fields: [userId], references: [user_id])
+  userId      Int?
+  content     String
+  replies     Reply[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
 
-
-// visualisasion
-
+model Reply {
+  id              Int          @id @default(autoincrement())
+  post            Post    @relation(fields: [postId], references: [id])
+  postId          Int
+  user            User?        @relation(fields: [userId], references: [user_id])
+  userId          Int?
+  content         String
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
 

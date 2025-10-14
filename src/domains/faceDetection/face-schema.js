@@ -10,10 +10,10 @@ const faceSchema = Joi.object({
 
 const getAllFaceSchema = Joi.object({
     mood: Joi.string().optional()
-        .valid("HAPPY","SAD","ANGRY","SURPRISED","NEUTRAL","FEARFUL")
+        .valid("sad","joy","anger","fear")
         .messages({
             'string.base': 'mood harus berupa teks.',
-            "any.only": `Status must be "HAPPY" "SAD" "ANGRY" "SURPRISED" "NEUTRAL" "FEARFUL" `
+            "any.only": `Status must be "sad","joy","anger","fear" `
     }),
     week: Joi.boolean().optional()
         .messages({
