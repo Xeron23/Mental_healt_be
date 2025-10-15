@@ -49,6 +49,7 @@ jobs:
               -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
               -e PORT="${{ secrets.PORT }}" \
               -e FE_URL="${{secrets.FE_URL}}" \
+              -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
               --restart unless-stopped \
               -e BE_URL="${{ secrets.BE_URL }}" \
               mental_healt
