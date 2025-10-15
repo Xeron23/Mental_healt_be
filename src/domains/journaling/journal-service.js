@@ -1,3 +1,4 @@
+import axios from "axios";
 import BaseError from "../../base_classes/base-error.js";
 import prisma from "../../config/db.js";
 import faceService from "../faceDetection/face-service.js";
@@ -14,7 +15,10 @@ class JournalService{
         if(!user){
             throw BaseError.notFound("User not found");
         }
-        data.mood = await faceService.generateMood(false);
+        const mood = await axios.post("https://frazanhibriz-journaling-ai.hf.space/predict", {
+            text: data.content
+        });
+        data.mood = mood.data.dominant_emotion;
         const journal = await prisma.journaling.create({
             data: data,
         });
