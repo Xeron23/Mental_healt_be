@@ -47,7 +47,8 @@ class ForumService{
                         last_name: true,
                         email: true,
                     }
-                }
+                },
+                replies: true
             },
             orderBy: {
                 createdAt: 'desc'
@@ -56,18 +57,21 @@ class ForumService{
         return forums;
     }
     async delete(id, user_id){
-        const deleted = await prisma.post.delete({
-            where: {
-                id: id,
-                userId: user_id
-            },
+        const post = await prisma.post.findFirst({
+            where: { id, userId: user_id }
         });
-        if(deleted.count === 0){
+
+        if (!post) {
             throw BaseError.notFound("Forum not found");
         }
+
+        await prisma.post.delete({
+            where: { id: post.id },
+        });
+
         return {
-            message: "Forum deleted successfully"
-        }
+            message: "Forum deleted successfully",
+        };
     }
 }
 
