@@ -63,6 +63,13 @@
         return successResponse(res, journal);
     }
 
+    async moodAnalysis(req, res){
+        const {title, content} = req.body;
+
+        const summary = await journalService.moodAnalysis({title, content});
+        return successResponse(res, summary);
+    }
+
 }
 
-export default new JournalController;
+export default new JournalController();

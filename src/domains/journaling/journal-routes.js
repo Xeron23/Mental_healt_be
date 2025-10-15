@@ -34,7 +34,12 @@ class JournalRoutes extends BaseRoutes {
             validateCredentials(journalSchema, "params"),
             validateCredentials(updateJournaslSchema),  
             tryCatch(journalController.update)
-        ])
+        ]);
+        this.router.post("/mood-analysis", [
+            authToken,
+            validateCredentials(createJournalSchema),
+            tryCatch(journalController.moodAnalysis)
+        ]);
     } 
 }
 
