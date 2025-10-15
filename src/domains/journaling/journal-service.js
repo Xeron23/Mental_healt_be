@@ -2,7 +2,7 @@ import axios from "axios";
 import BaseError from "../../base_classes/base-error.js";
 import prisma from "../../config/db.js";
 import faceService from "../faceDetection/face-service.js";
-
+import { groq, GROQ_DEFAULT_MODEL, GROQ_DEFAULT_SETTINGS } from "../../config/grok-ai.js";
 
 class JournalService{
     async create(data){
@@ -15,10 +15,7 @@ class JournalService{
         if(!user){
             throw BaseError.notFound("User not found");
         }
-        const mood = await axios.post("https://frazanhibriz-journaling-ai.hf.space/predict", {
-            text: data.content
-        });
-        data.mood = mood.data.dominant_emotion;
+        data.mood = await this.generateMood(data.content);
         const journal = await prisma.journaling.create({
             data: data,
         });
@@ -126,6 +123,44 @@ class JournalService{
         }
     }
 
+    async moodAnalysis(data){
+
+        const summary = await this.generateSummary(data);
+        return summary;
+    }
+
+
+    async generateSummary(journal){
+        journal.mood = await this.generateMood(journal.content);
+        console.log(journal);
+        
+        const prompt = `
+        Kamu adalah AI yang menjawab pesan pengguna secara singkat berdasarkan mood mereka.
+
+        Mood pengguna: ${journal.mood}
+        Judul: "${journal.title}"
+        Pesan: "${journal.content}"
+
+        Tulis respons dalam 1-2 kalimat saja (maksimal 25 kata).
+        Gunakan nada yang sesuai dengan mood, lalu akhiri dengan kalimat motivasi singkat yang menenangkan atau menyemangati.
+        Jangan pakai emoji, jangan sebut "AI".
+        `;
+
+        const response = await groq.chat.completions.create({
+            model: GROQ_DEFAULT_MODEL,
+            messages: [{ role: "user", content: prompt }],
+            ...GROQ_DEFAULT_SETTINGS,
+        });
+
+        return response.choices[0]?.message?.content?.trim() || "Maaf, aku tidak bisa memberikan respons.";
+    }
+
+    async generateMood(content){
+        const mood = await axios.post("https://frazanhibriz-journaling-ai.hf.space/predict", {
+            text: content
+        });
+        return mood.data.dominant_emotion;
+    }
 
 }
 
