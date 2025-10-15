@@ -9,6 +9,19 @@ console.log('🌱 Starting database seed...');
     TRUNCATE TABLE "Meditation", "Video", "News" RESTART IDENTITY CASCADE;
   `);
 
+  await prisma.user.createMany({
+    data: [
+      {
+        first_name: "Admin",
+        last_name: "CCI",
+        email: "admin@cci.com",
+        password: "admin123",
+        phone_number: "081234567890",
+        verifiedAt: new Date(),
+      }
+    ]
+  })
+
   await prisma.meditation.createMany({
     data: [
       // --- ANGER ---
