@@ -10,35 +10,35 @@ console.log('🌱 Starting database seed...');
     TRUNCATE TABLE "Meditation", "Video", "News" RESTART IDENTITY CASCADE;
   `);
 
-  await prisma.user.createMany({
-    data: [
-      {
-        first_name: "Admin",
-        last_name: "CCI",
-        email: "admin@cci.com",
-        password: await hashPassword("admin123"),
-        phone_number: "081234567890",
-        verifiedAt: new Date(),
-      }
-    ]
-  })
+  // await prisma.user.createMany({
+  //   data: [
+  //     {
+  //       first_name: "Admin",
+  //       last_name: "CCI",
+  //       email: "admin@cci.com",
+  //       password: await hashPassword("admin123"),
+  //       phone_number: "081234567890",
+  //       verifiedAt: new Date(),
+  //     }
+  //   ]
+  // })
 
     await prisma.journaling.createMany({
     data: [
-      { userId: 1, title: "Refleksi Pagi", content: "Hari ini saya merasa produktif dan fokus.", mood: "joy", createdAt: new Date("2025-10-18T08:00:00Z"), updatedAt: new Date("2025-10-18T08:00:00Z") },
-      { userId: 1, title: "Hari Berat", content: "Banyak tantangan hari ini, merasa sedih.", mood: "sad", createdAt: new Date("2025-10-18T09:30:00Z"), updatedAt: new Date("2025-10-17T09:30:00Z") },
-      { userId: 1, title: "Meditasi Malam", content: "Meditasi membuat hati lebih tenang.", mood: "joy", createdAt: new Date("2025-10-18T21:00:00Z"), updatedAt: new Date("2025-10-16T21:00:00Z") },
-      { userId: 1, title: "Meeting Panjang", content: "Rapat yang melelahkan, merasa marah.", mood: "anger", createdAt: new Date("2025-10-18T14:00:00Z"), updatedAt: new Date("2025-10-16T14:00:00Z") },
-      { userId: 1, title: "Belajar Node.js", content: "Mendalami Prisma dan Express hari ini.", mood: "joy", createdAt: new Date("2025-10-18T10:00:00Z"), updatedAt: new Date("2025-10-15T10:00:00Z") },
-      { userId: 1, title: "Coding Challenge", content: "Selesaikan beberapa soal algoritma.", mood: "joy", createdAt: new Date("2025-10-18T15:00:00Z"), updatedAt: new Date("2025-10-14T15:00:00Z") },
-      { userId: 1, title: "Olahraga Pagi", content: "Push-up dan sit-up pagi hari.", mood: "joy", createdAt: new Date("2025-10-18T06:30:00Z"), updatedAt: new Date("2025-10-13T06:30:00Z") },
-      { userId: 1, title: "Belajar React", content: "Membuat komponen baru dan latihan props.", mood: "joy", createdAt: new Date("2025-10-18T09:00:00Z"), updatedAt: new Date("2025-10-12T09:00:00Z") },
-      { userId: 1, title: "Hari Cemas", content: "Sedikit takut menghadapi deadline.", mood: "fear", createdAt: new Date("2025-10-18T12:00:00Z"), updatedAt: new Date("2025-10-12T12:00:00Z") },
-      { userId: 1, title: "Berjalan Santai", content: "Jalan santai di taman sore hari.", mood: "joy", createdAt: new Date("2025-10-18T18:00:00Z"), updatedAt: new Date("2025-10-11T18:00:00Z") },
-      { userId: 1, title: "Menulis Diary", content: "Menulis pengalaman hari ini.", mood: "sad", createdAt: new Date("2025-10-18T21:00:00Z"), updatedAt: new Date("2025-10-11T21:00:00Z") },
-      { userId: 1, title: "Meditasi Siang", content: "Meditasi singkat membuat rileks.", mood: "joy", createdAt: new Date("2025-10-18T13:00:00Z"), updatedAt: new Date("2025-10-10T13:00:00Z") },
-      { userId: 1, title: "Hari Marah", content: "Frustrasi karena komputer error.", mood: "anger", createdAt: new Date("2025-10-18T15:30:00Z"), updatedAt: new Date("2025-10-10T15:30:00Z") },
-      { userId: 1, title: "Belajar Prisma", content: "Mencoba query lanjutan di Prisma.", mood: "joy", createdAt: new Date("2025-10-09T10:00:00Z"), updatedAt: new Date("2025-10-09T10:00:00Z") },    ],
+      { userId: 2, title: "Refleksi Pagi", content: "Hari ini saya merasa produktif dan fokus.", mood: "joy", createdAt: new Date("2025-10-18T08:00:00Z"), updatedAt: new Date("2025-10-18T08:00:00Z") },
+      { userId: 2, title: "Hari Berat", content: "Banyak tantangan hari ini, merasa sedih.", mood: "sad", createdAt: new Date("2025-10-18T09:30:00Z"), updatedAt: new Date("2025-10-17T09:30:00Z") },
+      { userId: 2, title: "Meditasi Malam", content: "Meditasi membuat hati lebih tenang.", mood: "joy", createdAt: new Date("2025-10-18T21:00:00Z"), updatedAt: new Date("2025-10-16T21:00:00Z") },
+      { userId: 2, title: "Meeting Panjang", content: "Rapat yang melelahkan, merasa marah.", mood: "anger", createdAt: new Date("2025-10-18T14:00:00Z"), updatedAt: new Date("2025-10-16T14:00:00Z") },
+      { userId: 2, title: "Belajar Node.js", content: "Mendalami Prisma dan Express hari ini.", mood: "joy", createdAt: new Date("2025-10-18T10:00:00Z"), updatedAt: new Date("2025-10-15T10:00:00Z") },
+      { userId: 2, title: "Coding Challenge", content: "Selesaikan beberapa soal algoritma.", mood: "joy", createdAt: new Date("2025-10-18T15:00:00Z"), updatedAt: new Date("2025-10-14T15:00:00Z") },
+      { userId: 2, title: "Olahraga Pagi", content: "Push-up dan sit-up pagi hari.", mood: "joy", createdAt: new Date("2025-10-18T06:30:00Z"), updatedAt: new Date("2025-10-13T06:30:00Z") },
+      { userId: 2, title: "Belajar React", content: "Membuat komponen baru dan latihan props.", mood: "joy", createdAt: new Date("2025-10-18T09:00:00Z"), updatedAt: new Date("2025-10-12T09:00:00Z") },
+      { userId: 2, title: "Hari Cemas", content: "Sedikit takut menghadapi deadline.", mood: "fear", createdAt: new Date("2025-10-18T12:00:00Z"), updatedAt: new Date("2025-10-12T12:00:00Z") },
+      { userId: 2, title: "Berjalan Santai", content: "Jalan santai di taman sore hari.", mood: "joy", createdAt: new Date("2025-10-18T18:00:00Z"), updatedAt: new Date("2025-10-11T18:00:00Z") },
+      { userId: 2, title: "Menulis Diary", content: "Menulis pengalaman hari ini.", mood: "sad", createdAt: new Date("2025-10-18T21:00:00Z"), updatedAt: new Date("2025-10-11T21:00:00Z") },
+      { userId: 2, title: "Meditasi Siang", content: "Meditasi singkat membuat rileks.", mood: "joy", createdAt: new Date("2025-10-18T13:00:00Z"), updatedAt: new Date("2025-10-10T13:00:00Z") },
+      { userId: 2, title: "Hari Marah", content: "Frustrasi karena komputer error.", mood: "anger", createdAt: new Date("2025-10-18T15:30:00Z"), updatedAt: new Date("2025-10-10T15:30:00Z") },
+      { userId: 2, title: "Belajar Prisma", content: "Mencoba query lanjutan di Prisma.", mood: "joy", createdAt: new Date("2025-10-09T10:00:00Z"), updatedAt: new Date("2025-10-09T10:00:00Z") },    ],
     skipDuplicates: true
   });
   console.log("Seeder journaling berhasil dijalankan!");
@@ -46,37 +46,37 @@ console.log('🌱 Starting database seed...');
   await prisma.faceDetection.createMany({
     data: [
       {
-        userId: 1,
+        userId: 2,
         imageUrl: "https://example.com/images/face1.jpg",
         mood: "joy",
         detectedAt: new Date("2025-10-18T10:00:00Z"),
       },
       {
-        userId: 1,
+        userId: 2,
         imageUrl: "https://example.com/images/face2.jpg",
         mood: "sad",
         detectedAt: new Date("2025-10-18T11:00:00Z"),
       },
       {
-        userId: 1,
+        userId: 2,
         imageUrl: "https://example.com/images/face3.jpg",
         mood: "anger",
         detectedAt: new Date("2025-10-18T12:00:00Z"),
       },
       {
-        userId: 1,
+        userId: 2,
         imageUrl: "https://example.com/images/face4.jpg",
         mood: "fear",
         detectedAt: new Date("2025-10-18T13:00:00Z"),
       },
       {
-        userId: 1,
+        userId: 2,
         imageUrl: "https://example.com/images/face5.jpg",
         mood: "joy",
         detectedAt: new Date("2025-10-18T14:00:00Z"),
       },
       {
-        userId: 1,
+        userId: 2,
         imageUrl: "https://example.com/images/face6.jpg",
         mood: "sad",
         detectedAt: new Date("2025-10-18T15:00:00Z"),
