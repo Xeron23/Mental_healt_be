@@ -21,8 +21,9 @@ import meditateRoutes from "./domains/meditation/meditate-routes.js";
 import newsRoutes from "./domains/news/news-routes.js";
 import videoRoutes from "./domains/video/video-routes.js";
 import statsRoutes from "./domains/statistic/stats-routes.js";
-import forumRoutes from "./domains/chat/forum/forum-routes.js";
-import repliesRoutes from "./domains/chat/replies/replies-routes.js";
+// import forumRoutes from "./domains/chat/forum/forum-routes.js";
+// import repliesRoutes from "./domains/chat/replies/replies-routes.js";
+import messageRoute from "./domains/chat/message/message-route.js";
 
 class ExpressApplication {
     app;
@@ -101,8 +102,10 @@ class ExpressApplication {
         this.app.use("/api/v1/mindful-news", newsRoutes)
         this.app.use("/api/v1/video", videoRoutes)
         this.app.use("/api/v1/statistic", statsRoutes);
-        this.app.use("/api/v1/forum", forumRoutes);
-        this.app.use("/api/v1/replies", repliesRoutes);
+        this.app.use("/api/v1/message", messageRoute)
+        // this.app.use("/api/v1/forum", forumRoutes);
+        // this.app.use("/api/v1/replies", repliesRoutes);
+
 
     }
 
