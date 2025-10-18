@@ -21,7 +21,10 @@ async function uploadImageUpload(req, res, next) {
         await s3.send(command);
 
         req.fileUrl = `${process.env.S3_END_POINT}/${process.env.IS3_BUCKET_NAME}/${userId}/${date}-${file.originalname}`;
-
+        req.originalname = file.originalname
+        req.buffer = file.buffer
+        req.mimetype = file.mimetype
+        
         next();
     } catch (error) {
         console.error("Upload error:", error.message);
