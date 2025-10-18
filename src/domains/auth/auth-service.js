@@ -5,6 +5,7 @@ import { parseJWT, generateToken } from "../../utils/jwtTokenConfig.js";
 import joi from "joi";
 import prisma from "../../config/db.js";
 import { hashPassword, matchPassword } from "../../utils/passwordConfig.js";
+import { decode } from "jsonwebtoken";
 
 
 class AuthService {
@@ -90,13 +91,93 @@ class AuthService {
         return {message: "User registered successfully. Please check your email to verify your account."};
     }
 
+    async generateEmailResetPassword(email){
+        const user = await prisma.user.findFirst({
+            where: {
+                email: email
+            }
+        })
+        if(!user){
+            throw BaseError.notFound("user not found");
+        }
+
+        const token = generateToken(user.user_id, "5m");
+            const verificationLink = `${process.env.BE_URL}/api/v1/auth/verify-reset-password/${token}`;
+            console.log("link: ", verificationLink);
+        
+        const emailHtml = generateVerifEmail(verificationLink);
+
+        sendEmail(
+                user.email,
+                "Reset passworddari Test: Test Channel",
+                "Silankah mengklik link di bawah",
+                emailHtml
+        );
+
+        return {message: "Successfully send reset password. Please check your email to reset your password"};
+    }
+
+
+
+    async verifyResetPassword(token){
+        const decoded = parseJWT(token);
+
+        if(!decoded){
+            return { status: 400, message: "Invalid token" };
+        }
+
+        const user = await  prisma.user.findUnique({
+            where: {
+                user_id: decoded.id
+            },
+            select: {
+                first_name: true,
+                user_id: true,
+                last_name: true,
+                email: true
+            }
+        });
+
+        if (!user) {
+            return { status: 400, message: "User Not Found" }
+        }
+
+        if (user.verifiedAt){
+            return { status: 400, message: "Email already verified" };
+        }
+
+        return {status: 200, message: "Password verification successfully", data: user}
+    }
+
+    async resetPassword(newPassword, id){
+        const user = await prisma.user.findUnique({
+            where: {
+                user_id: id,
+            }
+        })
+        if(!user){
+            throw BaseError.notFound("user not found");
+        }
+
+        user.password = await hashPassword(newPassword);
+        await prisma.user.update({
+            where: {
+                user_id: id
+            },
+            data: {
+                password: user.password
+            }
+        })
+
+        return {message: "Password reset succesfully"}
+    }
+
     async verify(token) {
         const decoded = parseJWT(token);
         
         if (!decoded) {
             return { status: 400, message: "Invalid token" };
         }
-        console.log(decoded.id);
         
 
         const user = await  prisma.user.findUnique({
