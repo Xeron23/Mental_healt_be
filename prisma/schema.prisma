@@ -33,8 +33,7 @@ model User {
   logins     SystemLog[]
   detections FaceDetection[]
   journals   Journaling[]
-  Post Post[]
-  Reply Reply[]
+  Message    Message[]
   userMeditations UserMeditation[]
   created_at DateTime @default(now())
   verifiedAt DateTime?
@@ -122,24 +121,35 @@ model Video {
 }
 
 // chat
-model Post {
-  id          Int          @id @default(autoincrement())
-  user        User?        @relation(fields: [userId], references: [user_id])
+model Message {
+  id          Int         @id @default(autoincrement())
+  user        User?       @relation(fields: [userId], references: [user_id])
   userId      Int?
   content     String
-  replies     Reply[] 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  parentId    Int?
+  parent      Message?    @relation("MessageToReply", fields: [parentId], references: [id])
+  replies     Message[]   @relation("MessageToReply")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
+// model Post {
+//   id          Int          @id @default(autoincrement())
+//   user        User?        @relation(fields: [userId], references: [user_id])
+//   userId      Int?
+//   content     String
+//   replies     Reply[] 
+//   createdAt   DateTime     @default(now())
+//   updatedAt   DateTime     @updatedAt
+// }
 
-model Reply {
-  id              Int          @id @default(autoincrement())
-  post            Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId          Int
-  user            User?        @relation(fields: [userId], references: [user_id])
-  userId          Int?
-  content         String
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-}
+// model Reply {
+//   id              Int          @id @default(autoincrement())
+//   post            Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+//   postId          Int
+//   user            User?        @relation(fields: [userId], references: [user_id])
+//   userId          Int?
+//   content         String
+//   createdAt       DateTime     @default(now())
+//   updatedAt       DateTime     @updatedAt
+// }
 

@@ -6,10 +6,19 @@ import validateCredentials from "../../middlewares/validate-credentials-middlewa
 
 class StatsRoutes extends BaseRoutes {
     routes() {
-        this.router.get("/", [
+        // this.router.get("/", [
+        //     authToken,
+        //     tryCatch(statsController.getStats),
+        // ]);
+
+        this.router.get("/face-stats", [
             authToken,
-            tryCatch(statsController.getStats),
+            tryCatch(statsController.getFace),
         ]);
+        this.router.get("/journal-stats", [
+            authToken,
+            tryCatch(statsController.getJournaling)
+        ])
     }
 }
 

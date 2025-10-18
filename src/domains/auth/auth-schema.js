@@ -84,6 +84,27 @@ const changePasswordSchema = Joi.object({
         })
 });
 
+const resetPasswordSchema = Joi.object({
+    new_password: Joi.string().required()
+        .min(8)
+        .pattern(/^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/)
+        .messages({
+            "string.min": "Password must be at least 8 characters long.",
+            "string.pattern.base": "Password must be at least 8 characters long, contain at least 1 uppercase letter, and 1 special character."
+        }),
+    confirm_password: Joi.string().valid(Joi.ref("new_password")).required()
+        .messages({
+            "any.only": "Passwords do not match."
+        }),
+    id: Joi.number().min(1).required()
+        .messages({
+            "number.base": `id user should be a type of number`,
+            "number.empty": `id user cannot be an empty field`,
+            "number.min": `id user should have a minimum value of 1`,
+            "any.required": `id user is a required field`
+        })
+})
+
 const refreshTokenSchema = Joi.object({
     refresh_token : Joi.string()
         .required()
@@ -92,4 +113,4 @@ const refreshTokenSchema = Joi.object({
     }),
 })
 
-export { loginSchema, registerSchema, profileSchema, changePasswordSchema, refreshTokenSchema };
+export { loginSchema, registerSchema, profileSchema, changePasswordSchema, refreshTokenSchema, resetPasswordSchema };

@@ -39,6 +39,43 @@ class AuthController {
 
     }
 
+    async emailResetPassword(req, res){
+        const {email} = req.body;
+
+        const response = await AuthService.generateEmailResetPassword(email)
+        if(!response){
+            throw Error("Failed to generate email");
+        }
+        return successResponse(res, response)
+    }
+
+    async verifyResetPassword(req, res){
+        const {token} = req.params;
+
+        const response = await AuthService.verifyResetPassword(token);
+
+        if (response.status !== 200) {
+            return res.redirect(`${process.env.FE_URL}/reset-password?verify=failed&message=${response.message}`);
+        }
+
+        return res.redirect(`${process.env.FE_URL}/reset-password?verify=success&user=${response.data.user_id}`);
+    }
+
+    async resetPassword(req, res){
+        const {new_password, confirm_password, id } = req.body;
+
+        if(new_password !== confirm_password){
+            throw Error("Failed to update user password")
+        }
+
+        const message = await AuthService.resetPassword(new_password, id)
+
+        if(!message){
+            throw Error("failed to reset password")
+        }
+        return successResponse(res, message);
+    }
+
     async getProfile(req, res){
         const user = await AuthService.getProfile(req.user.user_id);
 

@@ -40,6 +40,10 @@ class JournalRoutes extends BaseRoutes {
             validateCredentials(createJournalSchema),
             tryCatch(journalController.moodAnalysis)
         ]);
+        this.router.delete("/", [
+            authToken,
+            tryCatch(journalController.deleteMany)
+        ]);
     } 
 }
 

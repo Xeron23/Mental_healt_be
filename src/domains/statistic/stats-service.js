@@ -1,5 +1,6 @@
 import BaseError from "../../base_classes/base-error.js";
 import prisma from "../../config/db.js";
+import { groq, GROQ_DEFAULT_MODEL, GROQ_DEFAULT_SETTINGS  } from "../../config/grok-ai.js";
 
 
 class StatsService {
@@ -93,6 +94,113 @@ class StatsService {
         }
 
         return stats;
+    }
+
+    async getFaceHistory(tgl, userId){
+        const where = { userId: Number(userId) };
+        if(tgl){
+            
+            const inputDate = new Date(tgl); 
+            const start = new Date(inputDate);
+            start.setHours(0,0,0,0);
+            const end = new Date(inputDate);
+            end.setHours(23,59,59,999);
+
+            where.createdAt = { gte: start, lte: end };
+        }
+        const [dataFace, face] = await Promise.all([
+            prisma.faceDetection.findMany({
+                where: where,
+                orderBy: {createdAt: "asc"}
+            }),
+            prisma.faceDetection.groupBy({
+                by: ['mood'],
+                where: where,
+                _count: {
+                    mood: true
+                }
+            })
+        ]);
+        
+
+        let maxCount = Math.max(...face.map(f => f._count.mood));
+        
+        const maxMoods = face
+            .filter(f => f._count.mood === maxCount)
+            .map(f => f.mood);
+
+        let summary = "Tidak ada summarize"
+            if(maxMoods.length){
+                summary = await this.generateSummaryStats(maxMoods);
+            }
+        
+        return {
+            mood: dataFace, summary: summary
+        }; 
+    }
+    
+    async getJournalHistory(tgl, userId){
+        const where = { userId: Number(userId) };
+        if(tgl){
+            
+            const inputDate = new Date(tgl); 
+            const start = new Date(inputDate);
+            start.setHours(0,0,0,0);
+            const end = new Date(inputDate);
+            end.setHours(23,59,59,999);
+
+            where.createdAt = { gte: start, lte: end };
+        }
+        const [dataJournal, journal] = await Promise.all([
+            prisma.journaling.findMany({
+                where: where,
+                orderBy: {createdAt: "asc"}
+            }),
+            prisma.journaling.groupBy({
+                by: ['mood'],
+                where: where,
+                _count: {
+                    mood: true
+                }
+            })
+        ]);
+        
+        
+
+        let maxCount = Math.max(...journal.map(f => f._count.mood));
+        
+        const maxMoods = journal
+            .filter(f => f._count.mood === maxCount)
+            .map(f => f.mood);
+            
+        let summary = "Tidak ada summarize"
+            if(maxMoods.length){
+                summary = await this.generateSummaryStats(maxMoods);
+            }
+        
+        return {
+            mood: dataJournal, summary: summary
+        }; 
+    }
+    
+    async generateSummaryStats(mood){
+        const prompt = `
+        Kamu adalah asisten yang membuat ringkasan mood pengguna secara natural dan santai. 
+        Gunakan Bahasa Indonesia, seolah kamu sedang ngobrol dengan pengguna. 
+        Buat kalimat yang menyebutkan semua mood yang ada pada max Moods (hanya dair situ saja), termasuk saran ringan atau tips, misalnya cara menghadapi mood negatif. 
+        Hasil harus ramah, natural, mengalir, dan mudah dibaca, maksimal 50 kata. 
+        Jangan gunakan simbol \n, tanda kutip, atau format markdown. 
+
+        Max Moods: ${JSON.stringify(mood)}
+        `;
+
+            const response = await groq.chat.completions.create({
+                model: GROQ_DEFAULT_MODEL,
+                messages: [{ role: "user", content: prompt }],
+                ...GROQ_DEFAULT_SETTINGS,
+            });
+    
+            return response.choices[0]?.message?.content?.trim() || "Maaf, aku tidak bisa memberikan respons.";
     }
 }
 
