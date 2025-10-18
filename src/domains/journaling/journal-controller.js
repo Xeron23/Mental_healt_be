@@ -70,6 +70,17 @@
         return successResponse(res, summary);
     }
 
+    async deleteMany(req, res){
+        const {data} = req.body;
+        
+        const userId = req.user.user_id;
+        const journal = await journalService.deleteManyJournal(data, userId)
+        if(!journal){
+            throw new Error("Failed ot delete many journal data")
+        }
+        return successResponse(res, journal);
+    }
+
 }
 
 export default new JournalController();

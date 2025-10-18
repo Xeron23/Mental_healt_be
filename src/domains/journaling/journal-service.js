@@ -162,6 +162,32 @@ class JournalService{
         return mood.data.dominant_emotion;
     }
 
+    async deleteManyJournal(data, user_id){
+        const checkUser = await prisma.journaling.findFirst({
+            where: {
+                userId: user_id,
+            }
+        })
+        if(!checkUser){
+            throw BaseError.notFound("journal user not found");
+        }
+
+        const journal = await prisma.journaling.deleteMany({
+            where: {
+                userId: user_id,
+                journal_id: {
+                    in: data
+                }
+            }
+        });
+        if(journal.count === 0){
+            throw BaseError.notFound("journal data not found")
+        }
+        return {
+            message: "succesfully delete many data" 
+        }
+    }
+
 }
 
 export default new JournalService();
