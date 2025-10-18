@@ -33,7 +33,7 @@ model User {
   logins     SystemLog[]
   detections FaceDetection[]
   journals   Journaling[]
-  messages   Message[]
+  Message    Message[]
   userMeditations UserMeditation[]
   created_at DateTime @default(now())
   verifiedAt DateTime?
@@ -120,21 +120,18 @@ model Video {
   updatedAt   DateTime @updatedAt
 }
 
+// chat
 model Message {
-  id            Int         @id @default(autoincrement())
-  user          User?       @relation(fields: [userId], references: [user_id])
-  userId        Int?
-  content       String
-  parentId      Int?        
-  parent        Message?    @relation("MessageToReply", fields: [parentId], references: [id])
-  replies       Message[]   @relation("MessageToReply")
-  isDeleted     Boolean     @default(false)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id          Int         @id @default(autoincrement())
+  user        User?       @relation(fields: [userId], references: [user_id])
+  userId      Int?
+  content     String
+  parentId    Int?
+  parent      Message?    @relation("MessageToReply", fields: [parentId], references: [id])
+  replies     Message[]   @relation("MessageToReply")
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
-
-
-// // chat
 // model Post {
 //   id          Int          @id @default(autoincrement())
 //   user        User?        @relation(fields: [userId], references: [user_id])
