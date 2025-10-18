@@ -8,9 +8,14 @@ class FaceController {
         if(!req.fileUrl){
             throw Error("Failed to get file image");
         }
+        const buffer = req.buffer;
+        const filename = req.originalname;
+        const fileType = req.mimetype;
+
         data.imageUrl = req.fileUrl;
         data.userId = req.user.user_id;
-        const faceDetect = await FaceService.detectFace(data);
+
+        const faceDetect = await FaceService.detectFace(data, {buffer, filename, fileType});
         if(!faceDetect){
             throw Error("failed to detect face");
         }

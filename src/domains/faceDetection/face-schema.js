@@ -8,6 +8,8 @@ const faceSchema = Joi.object({
     }),
 });
 
+
+
 const getAllFaceSchema = Joi.object({
     mood: Joi.string().optional()
         .valid("sad","joy","anger","fear")

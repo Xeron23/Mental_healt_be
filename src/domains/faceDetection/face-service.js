@@ -1,19 +1,18 @@
  import axios from "axios";
  import deleteImage from "../../utils/deleteImage.js";
-
+import FormData from "form-data";
 import prisma from "../../config/db.js";
 import BaseError from "../../base_classes/base-error.js";
 
  class FaceService {
-    async detectFace(data){
-        const testMood = await this.generateMood(data);
-
+    async detectFace(data, image){
+        const testMood = await this.generateMood(image.buffer, image.filename, image.fileType);
+        
         if(!testMood){
             await deleteImage(data.image_url);
         }
-
+        
         data.mood = testMood;
-        console.log(data);
         
         const faceDetect = await prisma.faceDetection.create({
             data: data
@@ -104,15 +103,21 @@ import BaseError from "../../base_classes/base-error.js";
         return { total, data: faceData };
     }
 
-    async generateMood(image_url) {
-        const moods = ["sad","joy","anger","fear"];
-
-        if (image_url) {
-            const randomIndex = Math.floor(Math.random() * moods.length);
-            return moods[randomIndex];
-        }
-
-        return "joy";
+    async generateMood(buffer, filename, typeImage) {
+        const formData = new FormData();
+        formData.append("file", buffer, {
+            filename: filename,
+            contentType: typeImage
+         })
+         
+        const mood = await axios.post("https://emotion-detection-api.azurewebsites.net/predict", 
+            formData,
+            {
+                headers: formData.getHeaders()
+            }
+        );
+        
+        return mood.data.emotion;
     }
 }
 
