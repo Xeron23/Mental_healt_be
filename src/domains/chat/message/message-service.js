@@ -13,9 +13,9 @@ class MessageService{
             if(!checkParent){
                 throw BaseError.notFound("Data parent not found");
             }
-            if(checkParent.userId === data.userId){
-                throw BaseError.badRequest("Cannot self replay")
-            }
+            // if(checkParent.userId === data.userId){
+            //     throw BaseError.badRequest("Cannot self replay")
+            // }
         }
 
         const message = await prisma.message.create({
@@ -44,8 +44,8 @@ class MessageService{
         if(!checkMessage){
             throw BaseError.notFound("Message not found");
         }
-
-        if(checkTgl(checkMessage.createdAt)){
+        
+        if(!checkTgl(checkMessage.createdAt)){
             throw BaseError.badRequest("Tidak bisa update, sudah lewat 5 menit");
         }
 
@@ -56,7 +56,6 @@ class MessageService{
             },
             data: {
                 userId: data.userId,
-                parentId: data.parentId,
                 content: data.content
             }
         })
@@ -82,6 +81,22 @@ class MessageService{
         return {
             message: "Message deleted succesfully",
         }
+    }
+
+    async getAll(){
+        const message = await prisma.message.findMany({
+            include: {
+                user: true,
+                replies: {
+                    include: {
+                        user: true
+                    },
+                    orderBy: {createdAt: "asc"}
+                }
+            },
+            orderBy: {createdAt: "asc"}
+        })
+        return message;
     }
 }
 

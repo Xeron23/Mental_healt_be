@@ -6,6 +6,11 @@ const createMessageSchema = Joi.object({
             "string.base": "content must be text",
             "string.empty": "content is required",
             "string.min": "content must be at least 5 words."
+    }),
+    parentId: Joi.number().optional().min(1)
+        .message({
+            "number.base": "parentId must be number",
+            "number.min": "parentId must be at at least 1"
     })
 })
 

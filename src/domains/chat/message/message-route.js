@@ -15,6 +15,7 @@ class MessageRoutes extends BaseRoutes {
         this.router.put("/:id", [
             authToken,
             validateCredentials(messageSchema, "params"),
+            validateCredentials(createMessageSchema),
             tryCatch(messageController.update)
         ]);
 
@@ -22,6 +23,10 @@ class MessageRoutes extends BaseRoutes {
             authToken,
             validateCredentials(messageSchema, "params"),
             tryCatch(messageController.delete)
+        ]);
+        this.router.get("/", [
+            authToken,
+            tryCatch(messageController.index),
         ]);
     }
 }
