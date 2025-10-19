@@ -25,6 +25,9 @@ jobs:
 
             # Ambil kode terbaru
             git pull origin DEV
+            git status
+            git remote -v
+            git branch -vv
 
             # Build ulang image Docker
             docker build -t mental_healt .
