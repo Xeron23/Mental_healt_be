@@ -116,7 +116,6 @@ import BaseError from "../../base_classes/base-error.js";
                 headers: formData.getHeaders()
             }
         );
-        
         return mood.data.emotion;
     }
 }
