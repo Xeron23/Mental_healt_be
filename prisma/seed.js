@@ -12,6 +12,11 @@ console.log('🌱 Starting database seed...');
 
 
   
+  await prisma.user.delete({
+    where: {
+      email: "admin@cci.com"
+    }
+  })
   await prisma.user.createMany({
     data: [
       {
@@ -23,11 +28,6 @@ console.log('🌱 Starting database seed...');
         verifiedAt: new Date(),
       }
     ]
-  })
-  await prisma.user.delete({
-    where: {
-      email: "admin@cci.com"
-    }
   })
 
   const user = await prisma.user.findFirst({
