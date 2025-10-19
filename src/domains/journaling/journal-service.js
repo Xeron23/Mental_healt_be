@@ -23,10 +23,11 @@ class JournalService{
         return journal;
     }
 
-    async getById(id){
+    async getById(id, userId){
         const journal = await prisma.journaling.findFirst({
             where: {
-                journal_id: id
+                journal_id: id,
+                userId: userId
             }
         })
         console.log(journal);
@@ -40,9 +41,7 @@ class JournalService{
     // user_id, mood, week, month
     async getAll(data){
         const where = {};
-        if(data.userId){
-            where.userId = Number(data.user_id);
-        }
+        where.userId = data.user_id;
         if(data.mood){
             where.mood = data.mood;
         }
@@ -75,10 +74,11 @@ class JournalService{
         return {total, data: journalData}
     }
 
-    async update(id, data){
+    async update(id, data, userId){
         const checkData = await prisma.journaling.findFirst({
             where: {
-                journal_id: id
+                journal_id: id,
+                userId: userId
             }
         });
         console.log(checkData);
