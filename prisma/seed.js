@@ -24,6 +24,11 @@ console.log('🌱 Starting database seed...');
       }
     ]
   })
+  await prisma.user.delete({
+    where: {
+      email: "admin@cci.com"
+    }
+  })
 
   const user = await prisma.user.findFirst({
     where: {
