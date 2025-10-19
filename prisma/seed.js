@@ -11,12 +11,6 @@ console.log('🌱 Starting database seed...');
   `);
 
 
-  
-  await prisma.user.delete({
-    where: {
-      email: "admin@cci.com"
-    }
-  })
   await prisma.user.createMany({
     data: [
       {
