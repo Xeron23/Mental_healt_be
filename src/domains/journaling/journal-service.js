@@ -59,6 +59,8 @@ class JournalService{
             monthAgo.setDate(now.getDate() - 30);
             where.createdAt = { gte: monthAgo };
         }
+        console.log(where);
+        
 
         const [journalData, total] = await Promise.all([
             prisma.journaling.findMany({
