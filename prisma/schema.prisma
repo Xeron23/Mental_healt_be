@@ -11,6 +11,13 @@ enum Mood {
 }
 
 
+enum QueueStatus {
+  queued
+  playing
+  played
+}
+
+
 generator client {
   provider = "prisma-client-js"
   // output   = "../src/generated/prisma"
@@ -35,6 +42,8 @@ model User {
   journals   Journaling[]
   Message    Message[]
   userMeditations UserMeditation[]
+  userLikeMeditation MeditationFavorite[]
+  meditationQueue MeditationQueue[]
   created_at DateTime @default(now())
   verifiedAt DateTime?
   updated_at DateTime @updatedAt
@@ -83,8 +92,33 @@ model Meditation {
   mediaUrl      String
   duration      Int
   userMeditations UserMeditation[]
+  meditationLike MeditationFavorite[]
+  meditationQueue MeditationQueue[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+model MeditationFavorite {
+  id            Int        @id @default(autoincrement())
+  user          User?      @relation(fields: [userId], references: [user_id])
+  userId        Int?
+  meditation    Meditation? @relation(fields: [meditationId], references: [meditation_id])
+  meditationId  Int?
+  createdAt     DateTime   @default(now())
+
+  @@unique([userId, meditationId])
+}
+
+model MeditationQueue {
+  id        Int      @id @default(autoincrement())
+  user      User?    @relation(fields: [userId], references: [user_id])
+  userId    Int?
+  meditation     Meditation?   @relation(fields: [meditationId], references: [meditation_id])
+  meditationId   Int?
+  position  Int
+  status    QueueStatus  @default(queued)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model UserMeditation {
@@ -106,6 +140,7 @@ model News {
   description String
   imageUrl    String
   content     String
+  readingTime Int @default(2)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

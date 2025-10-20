@@ -317,117 +317,107 @@ console.log('🌱 Starting database seed...');
 
   await prisma.news.createMany({
     data: [
-    {
+      {
         title: "Pentingnya Istirahat Mental di Tengah Tekanan Pekerjaan",
         description: "Belajar mengenali tanda-tanda kelelahan emosional agar tidak berujung burnout.",
         imageUrl: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1000&q=80",
-        content: "Kelelahan emosional bisa muncul tanpa disadari ketika tekanan pekerjaan datang bertubi-tubi. Penting untuk memberi waktu bagi diri sendiri untuk beristirahat dan melakukan kegiatan yang menenangkan seperti berjalan santai atau meditasi."
-    },
-    {
+        content: "Kelelahan emosional bisa muncul tanpa disadari ketika tekanan pekerjaan datang bertubi-tubi. Penting untuk memberi waktu bagi diri sendiri untuk beristirahat dan melakukan kegiatan yang menenangkan seperti berjalan santai atau meditasi. Mengatur waktu kerja dan belajar untuk menolak tugas tambahan juga membantu menjaga keseimbangan hidup. Dengan begitu, kamu bisa tetap produktif tanpa kehilangan ketenangan batin.",
+        readingTime: 4
+      },
+      {
         title: "Meditasi 10 Menit Setiap Hari Bisa Ubah Hidupmu",
         description: "Penelitian menunjukkan meditasi singkat dapat menurunkan tingkat stres secara signifikan.",
         imageUrl: "https://images.unsplash.com/photo-1523978591478-c753949ff840?auto=format&fit=crop&w=1000&q=80",
-        content: "Dengan meditasi 10 menit setiap hari, sistem saraf menjadi lebih stabil dan tubuh mampu beradaptasi terhadap stres dengan lebih baik. Kuncinya adalah konsistensi dan kesadaran dalam setiap napas."
-    },
-    {
+        content: "Dengan meditasi 10 menit setiap hari, sistem saraf menjadi lebih stabil dan tubuh mampu beradaptasi terhadap stres dengan lebih baik. Kuncinya adalah konsistensi dan kesadaran dalam setiap napas. Bahkan di tengah kesibukan, meluangkan waktu sejenak untuk diam dan hadir di momen kini dapat memberikan ketenangan luar biasa. Banyak orang melaporkan peningkatan fokus dan rasa syukur setelah bermeditasi rutin selama beberapa minggu.",
+        readingTime: 3
+      },
+      {
         title: "Cara Menghadapi Overthinking dengan Teknik Grounding",
         description: "Overthinking sering kali memperburuk kecemasan, namun bisa diatasi dengan langkah sederhana.",
         imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80",
-        content: "Teknik grounding membantu mengembalikan fokus ke saat ini. Coba sebutkan lima hal yang kamu lihat, empat hal yang kamu rasakan, dan tiga hal yang kamu dengar. Ini membantu menenangkan pikiran yang berputar."
-    },
-    {
+        content: "Teknik grounding membantu mengembalikan fokus ke saat ini. Coba sebutkan lima hal yang kamu lihat, empat hal yang kamu rasakan, dan tiga hal yang kamu dengar. Ini membantu menenangkan pikiran yang berputar. Lakukan ini kapan pun kamu merasa cemas atau kehilangan arah. Dengan latihan rutin, kamu akan belajar untuk lebih sadar terhadap momen sekarang dan tidak tenggelam dalam pikiran negatif.",
+        readingTime: 3
+      },
+      {
         title: "Mengapa Curhat dengan Teman Bisa Jadi Terapi Efektif",
         description: "Berbicara dengan orang lain bukan tanda lemah, justru bentuk kekuatan emosional.",
         imageUrl: "https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=1000&q=80",
-        content: "Membuka diri kepada teman yang dipercaya membantu mengurangi beban pikiran dan memberi perspektif baru terhadap masalah yang dihadapi. Curhat bukan hanya tentang mengeluh, tapi juga proses penyembuhan diri."
-    },
-    {
+        content: "Membuka diri kepada teman yang dipercaya membantu mengurangi beban pikiran dan memberi perspektif baru terhadap masalah yang dihadapi. Curhat bukan hanya tentang mengeluh, tapi juga proses penyembuhan diri. Kadang mendengar kalimat sederhana seperti 'aku mengerti' sudah cukup membuat hati terasa ringan. Pilih teman yang suportif dan tidak menghakimi agar percakapan menjadi aman dan menenangkan.",
+        readingTime: 4
+      },
+      {
         title: "Dampak Media Sosial terhadap Kesehatan Mental Remaja",
         description: "Remaja rentan mengalami tekanan sosial akibat ekspektasi di media sosial.",
         imageUrl: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1000&q=80",
-        content: "Penggunaan media sosial yang berlebihan bisa memicu rasa cemas, iri, dan rendah diri. Mengatur waktu penggunaan dan mengikuti akun yang inspiratif bisa membantu menjaga keseimbangan emosional."
-    },
-    {
+        content: "Penggunaan media sosial yang berlebihan bisa memicu rasa cemas, iri, dan rendah diri. Mengatur waktu penggunaan dan mengikuti akun yang inspiratif bisa membantu menjaga keseimbangan emosional. Selain itu, penting untuk memahami bahwa apa yang ditampilkan orang lain tidak selalu mencerminkan kenyataan. Batasi waktu bermain media sosial dan isi harimu dengan kegiatan yang lebih bermakna.",
+        readingTime: 4
+      },
+      {
         title: "Tidur Berkualitas, Kunci Kesehatan Mental yang Sering Terlupakan",
         description: "Kurang tidur dapat memengaruhi suasana hati dan kemampuan fokus seseorang.",
         imageUrl: "https://images.unsplash.com/photo-1526925539332-aa3b66e35444?auto=format&fit=crop&w=1000&q=80",
-        content: "Tidur cukup selama 7–9 jam setiap malam membantu otak memproses emosi dengan lebih baik. Hindari gadget sebelum tidur untuk meningkatkan kualitas istirahatmu."
-    },
-    {
+        content: "Tidur cukup selama 7–9 jam setiap malam membantu otak memproses emosi dengan lebih baik. Hindari gadget sebelum tidur untuk meningkatkan kualitas istirahatmu. Ciptakan suasana kamar yang nyaman dan gelap, serta biasakan tidur di waktu yang sama setiap malam. Tidur yang baik bukan hanya soal fisik, tapi juga memberi ruang bagi pikiran untuk pulih.",
+        readingTime: 3
+      },
+      {
         title: "Mengenal Self-Compassion: Belas Kasih terhadap Diri Sendiri",
         description: "Belajar memaafkan diri adalah langkah awal menuju ketenangan batin.",
         imageUrl: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=1000&q=80",
-        content: "Self-compassion berarti memperlakukan diri sendiri seperti kita memperlakukan sahabat yang sedang kesulitan — dengan empati, bukan kritik. Ini membantu meningkatkan harga diri dan kebahagiaan jangka panjang."
-    },
-    {
+        content: "Self-compassion berarti memperlakukan diri sendiri seperti sahabat yang sedang kesulitan — dengan empati, bukan kritik. Ini membantu meningkatkan harga diri dan kebahagiaan jangka panjang. Ketika kita mampu menerima kekurangan dan kegagalan dengan lembut, beban hidup terasa lebih ringan. Tidak ada manusia yang sempurna, dan penerimaan diri adalah bentuk cinta terdalam terhadap hidup.",
+        readingTime: 4
+      },
+      {
         title: "Musik Sebagai Terapi Emosional di Saat Sulit",
         description: "Mendengarkan musik terbukti dapat menurunkan stres dan meningkatkan suasana hati.",
         imageUrl: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=1000&q=80",
-        content: "Musik dengan tempo lambat membantu menurunkan detak jantung dan tekanan darah, sehingga tubuh menjadi lebih rileks. Cobalah playlist musik ambient atau lo-fi untuk menenangkan diri."
-    },
-    {
+        content: "Musik dengan tempo lambat membantu menurunkan detak jantung dan tekanan darah, sehingga tubuh menjadi lebih rileks. Cobalah playlist musik ambient atau lo-fi untuk menenangkan diri. Selain mendengarkan, bermain alat musik atau bernyanyi juga dapat menjadi cara mengekspresikan perasaan yang sulit diucapkan dengan kata-kata.",
+        readingTime: 3
+      },
+      {
         title: "Menulis Jurnal Setiap Hari untuk Mengenal Diri Lebih Dalam",
         description: "Menulis bisa jadi bentuk refleksi yang kuat untuk memahami emosi sendiri.",
         imageUrl: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=80",
-        content: "Melalui jurnal, seseorang dapat menuangkan pikiran tanpa takut dihakimi. Ini membantu mengidentifikasi pola emosi dan memberikan kejelasan terhadap perasaan yang selama ini terpendam."
-    },
-    {
+        content: "Melalui jurnal, seseorang dapat menuangkan pikiran tanpa takut dihakimi. Ini membantu mengidentifikasi pola emosi dan memberikan kejelasan terhadap perasaan yang selama ini terpendam. Coba tulis setiap pagi atau malam sebelum tidur. Lama-lama kamu akan menemukan pola berpikir yang sebelumnya tak disadari.",
+        readingTime: 4
+      },
+      {
         title: "Menemukan Kedamaian Lewat Alam",
         description: "Berada di alam terbuka membantu menyeimbangkan kesehatan fisik dan mental.",
         imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1000&q=80",
-        content: "Berjalan di taman atau mendaki gunung dapat mengaktifkan hormon endorfin dan menurunkan kadar kortisol (hormon stres). Alam membantu kita merasa terhubung kembali dengan kehidupan yang lebih besar."
-    },
-
-        {
-            title: "Kekuatan Rasa Syukur dalam Kesehatan Mental",
-            description: "Bersyukur dapat meningkatkan kebahagiaan dan mengurangi gejala depresi.",
-            imageUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
-            content: "Menulis tiga hal yang disyukuri setiap hari membantu otak berfokus pada hal positif. Ini bukan sekadar kebiasaan, tapi bentuk terapi kognitif yang efektif dalam memperbaiki kesejahteraan emosional."
-        },
-        {
-            title: "Detoks Digital: Menjauh dari Layar untuk Menjaga Pikiran Sehat",
-            description: "Paparan layar berlebih dapat mengganggu fokus dan kesehatan mental.",
-            imageUrl: "https://images.unsplash.com/photo-1496674205429-924b32acd421?auto=format&fit=crop&w=1000&q=80",
-            content: "Cobalah detoks digital selama satu hari tanpa media sosial. Gunakan waktu itu untuk berjalan di alam, membaca buku, atau sekadar diam bersama diri sendiri. Efeknya bisa sangat menenangkan."
-        },
-        {
-            title: "Membangun Batas Sehat dalam Hubungan",
-            description: "Menetapkan batas bukan berarti egois, tapi tanda menghargai diri sendiri.",
-            imageUrl: "https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=1000&q=80",
-            content: "Batas yang sehat menjaga keseimbangan emosional dan mencegah kelelahan sosial. Belajar berkata 'tidak' dengan lembut adalah bagian dari mencintai diri sendiri tanpa rasa bersalah."
-        },
-        {
-            title: "Berjalan Kaki Sebagai Bentuk Meditasi Aktif",
-            description: "Meditasi tidak selalu harus duduk diam — berjalan pun bisa menjadi latihan kesadaran.",
-            imageUrl: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1000&q=80",
-            content: "Saat berjalan, fokuslah pada langkah dan napasmu. Rasakan setiap gerakan kaki, suara di sekitar, dan angin yang menyentuh kulit. Ini membantu menurunkan stres dan meningkatkan kehadiran diri."
-        },
-        {
-        title: "Mengenal Self-Compassion: Belas Kasih terhadap Diri Sendiri",
-        description: "Belajar memaafkan diri adalah langkah awal menuju ketenangan batin.",
-        imageUrl: "https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1000&q=80",
-        content: "Self-compassion berarti memperlakukan diri sendiri seperti kita memperlakukan sahabat yang sedang kesulitan — dengan empati, bukan kritik. Ini membantu meningkatkan harga diri dan kebahagiaan jangka panjang."
-        },
-        {
-        title: "Musik Sebagai Terapi Emosional di Saat Sulit",
-        description: "Mendengarkan musik terbukti dapat menurunkan stres dan meningkatkan suasana hati.",
-        imageUrl: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80",
-        content: "Musik dengan tempo lambat membantu menurunkan detak jantung dan tekanan darah, sehingga tubuh menjadi lebih rileks. Cobalah playlist musik ambient atau lo-fi untuk menenangkan diri."
-        },
-        {
-        title: "Menulis Jurnal Setiap Hari untuk Mengenal Diri Lebih Dalam",
-        description: "Menulis bisa jadi bentuk refleksi yang kuat untuk memahami emosi sendiri.",
-        imageUrl: "https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1000&q=80",
-        content: "Melalui jurnal, seseorang dapat menuangkan pikiran tanpa takut dihakimi. Ini membantu mengidentifikasi pola emosi dan memberikan kejelasan terhadap perasaan yang selama ini terpendam."
-        },
-        {
-        title: "Menemukan Kedamaian Lewat Alam",
-        description: "Berada di alam terbuka membantu menyeimbangkan kesehatan fisik dan mental.",
-        imageUrl: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=80",
-        content: "Berjalan di taman atau mendaki gunung dapat mengaktifkan hormon endorfin dan menurunkan kadar kortisol (hormon stres). Alam membantu kita merasa terhubung kembali dengan kehidupan yang lebih besar."
-        }
+        content: "Berjalan di taman atau mendaki gunung dapat mengaktifkan hormon endorfin dan menurunkan kadar kortisol (hormon stres). Alam membantu kita merasa terhubung kembali dengan kehidupan yang lebih besar. Saat kamu lelah secara mental, cobalah pergi ke tempat hijau dan rasakan udara segar yang menenangkan.",
+        readingTime: 3
+      },
+      {
+        title: "Kekuatan Rasa Syukur dalam Kesehatan Mental",
+        description: "Bersyukur dapat meningkatkan kebahagiaan dan mengurangi gejala depresi.",
+        imageUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80",
+        content: "Menulis tiga hal yang disyukuri setiap hari membantu otak berfokus pada hal positif. Ini bukan sekadar kebiasaan, tapi bentuk terapi kognitif yang efektif dalam memperbaiki kesejahteraan emosional. Rasa syukur membuat kita melihat hidup dengan perspektif yang lebih cerah dan tenang.",
+        readingTime: 3
+      },
+      {
+        title: "Detoks Digital: Menjauh dari Layar untuk Menjaga Pikiran Sehat",
+        description: "Paparan layar berlebih dapat mengganggu fokus dan kesehatan mental.",
+        imageUrl: "https://images.unsplash.com/photo-1496674205429-924b32acd421?auto=format&fit=crop&w=1000&q=80",
+        content: "Cobalah detoks digital selama satu hari tanpa media sosial. Gunakan waktu itu untuk berjalan di alam, membaca buku, atau sekadar diam bersama diri sendiri. Efeknya bisa sangat menenangkan. Membatasi paparan layar juga membantu memperbaiki pola tidur dan meningkatkan konsentrasi.",
+        readingTime: 4
+      },
+      {
+        title: "Membangun Batas Sehat dalam Hubungan",
+        description: "Menetapkan batas bukan berarti egois, tapi tanda menghargai diri sendiri.",
+        imageUrl: "https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=1000&q=80",
+        content: "Batas yang sehat menjaga keseimbangan emosional dan mencegah kelelahan sosial. Belajar berkata 'tidak' dengan lembut adalah bagian dari mencintai diri sendiri tanpa rasa bersalah. Hubungan yang sehat lahir dari dua individu yang mampu menghormati ruang pribadi masing-masing.",
+        readingTime: 4
+      },
+      {
+        title: "Berjalan Kaki Sebagai Bentuk Meditasi Aktif",
+        description: "Meditasi tidak selalu harus duduk diam — berjalan pun bisa menjadi latihan kesadaran.",
+        imageUrl: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1000&q=80",
+        content: "Saat berjalan, fokuslah pada langkah dan napasmu. Rasakan setiap gerakan kaki, suara di sekitar, dan angin yang menyentuh kulit. Ini membantu menurunkan stres dan meningkatkan kehadiran diri. Cobalah berjalan tanpa musik dan biarkan pikiranmu tenang dalam ritme alami tubuh.",
+        readingTime: 3
+      }
     ]
   })
+
 
   await prisma.video.createMany({
     data: [
