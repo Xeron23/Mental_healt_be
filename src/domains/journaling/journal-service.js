@@ -1,7 +1,6 @@
 import axios from "axios";
 import BaseError from "../../base_classes/base-error.js";
 import prisma from "../../config/db.js";
-import faceService from "../faceDetection/face-service.js";
 import { groq, GROQ_DEFAULT_MODEL, GROQ_DEFAULT_SETTINGS } from "../../config/grok-ai.js";
 
 class JournalService{
