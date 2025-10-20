@@ -20,11 +20,15 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 28101
+          timeout: 60s
           script: |
             cd /opt/Mental_healt_be
 
             # Ambil kode terbaru
             git pull origin DEV
+            git status
+            git remote -v
+            git branch -vv
 
             # Build ulang image Docker
             docker build -t mental_healt .

@@ -1,7 +1,6 @@
 import axios from "axios";
 import BaseError from "../../base_classes/base-error.js";
 import prisma from "../../config/db.js";
-import faceService from "../faceDetection/face-service.js";
 import { groq, GROQ_DEFAULT_MODEL, GROQ_DEFAULT_SETTINGS } from "../../config/grok-ai.js";
 
 class JournalService{
@@ -15,7 +14,8 @@ class JournalService{
         if(!user){
             throw BaseError.notFound("User not found");
         }
-        data.mood = await this.generateMood(data.content);
+        const {dominant_emotion} = await this.generateMood(data.content);
+        data.mood = dominant_emotion;
         const journal = await prisma.journaling.create({
             data: data,
         });
@@ -23,10 +23,11 @@ class JournalService{
         return journal;
     }
 
-    async getById(id){
+    async getById(id, userId){
         const journal = await prisma.journaling.findFirst({
             where: {
-                journal_id: id
+                journal_id: id,
+                userId: userId
             }
         })
         console.log(journal);
@@ -40,9 +41,7 @@ class JournalService{
     // user_id, mood, week, month
     async getAll(data){
         const where = {};
-        if(data.userId){
-            where.userId = Number(data.user_id);
-        }
+        where.userId = data.user_id;
         if(data.mood){
             where.mood = data.mood;
         }
@@ -60,6 +59,8 @@ class JournalService{
             monthAgo.setDate(now.getDate() - 30);
             where.createdAt = { gte: monthAgo };
         }
+        console.log(where);
+        
 
         const [journalData, total] = await Promise.all([
             prisma.journaling.findMany({
@@ -75,20 +76,25 @@ class JournalService{
         return {total, data: journalData}
     }
 
-    async update(id, data){
+    async update(id, data, userId){
         const checkData = await prisma.journaling.findFirst({
             where: {
-                journal_id: id
+                journal_id: id,
+                userId: userId
             }
         });
-        console.log(checkData);
         
 
         if(!checkData){
             throw BaseError.notFound("Data not found");
         }
+        if(data.content){
+            const {dominant_emotion} = await this.generateMood(data.content);
+            data.mood = dominant_emotion;
+        }else {
+            data.mood = checkData.mood
+        }
         
-        data.mood = await faceService.generateMood(true);
         const journal = await prisma.journaling.update({
             where: {
                 journal_id: id
@@ -131,35 +137,51 @@ class JournalService{
 
 
     async generateSummary(journal){
-        journal.mood = await this.generateMood(journal.content);
-        console.log(journal);
+        // console.log(journal);
         
-        const prompt = `
-        Kamu adalah AI yang menjawab pesan pengguna secara singkat berdasarkan mood mereka.
+        // const prompt = `
+        // Kamu adalah AI yang menjawab pesan pengguna secara singkat berdasarkan mood mereka.
+        
+        // Mood pengguna: ${journal.mood}
+        // Judul: "${journal.title}"
+        // Pesan: "${journal.content}"
+        
+        // Tulis respons dalam 1-2 kalimat saja (maksimal 25 kata).
+        // Gunakan nada yang sesuai dengan mood, lalu akhiri dengan kalimat motivasi singkat yang menenangkan atau menyemangati.
+        // Jangan pakai emoji, jangan sebut "AI".
+        // `;
+        
+        // const response = await groq.chat.completions.create({
+            //     model: GROQ_DEFAULT_MODEL,
+            //     messages: [{ role: "user", content: prompt }],
+            //     ...GROQ_DEFAULT_SETTINGS,
+            // });
+            // return response.choices[0]?.message?.content?.trim() || "Maaf, aku tidak bisa memberikan respons.";
+            const summary = await this.generateMood(journal.content);
+            const { dominant_emotion, confidence } = summary;
 
-        Mood pengguna: ${journal.mood}
-        Judul: "${journal.title}"
-        Pesan: "${journal.content}"
+            const moodMap = {
+                sad: "Sedih",
+                joy: "Bahagia",
+                anger: "Marah",
+                fear: "Takut"
+            };
 
-        Tulis respons dalam 1-2 kalimat saja (maksimal 25 kata).
-        Gunakan nada yang sesuai dengan mood, lalu akhiri dengan kalimat motivasi singkat yang menenangkan atau menyemangati.
-        Jangan pakai emoji, jangan sebut "AI".
-        `;
+            const mood = moodMap[dominant_emotion];
 
-        const response = await groq.chat.completions.create({
-            model: GROQ_DEFAULT_MODEL,
-            messages: [{ role: "user", content: prompt }],
-            ...GROQ_DEFAULT_SETTINGS,
-        });
+            return {
+                mood,
+                confident: Math.ceil(confidence * 100)
+            };
 
-        return response.choices[0]?.message?.content?.trim() || "Maaf, aku tidak bisa memberikan respons.";
     }
 
     async generateMood(content){
         const mood = await axios.post("https://frazanhibriz-journaling-ai.hf.space/predict", {
             text: content
         });
-        return mood.data.dominant_emotion;
+        
+        return mood.data;
     }
 
     async deleteManyJournal(data, user_id){

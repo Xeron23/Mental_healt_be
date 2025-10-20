@@ -19,7 +19,9 @@
     async show(req, res){
         const id = parseInt(req.params.id);
 
-        const journal = await journalService.getById(id);
+        const userId = req.user.user_id;
+
+        const journal = await journalService.getById(id, userId);
         if(!journal){
             throw Error("Failed to show journal data");
         }
@@ -42,8 +44,9 @@
 
     async update(req, res){
         const {title, content} = req.body;
-        const id = parseInt(req.params.id)
-        const journal = await journalService.update(id, {title, content});
+        const id = parseInt(req.params.id);
+        const userId = req.user.user_id;
+        const journal = await journalService.update(id, {title, content}, userId);
 
         if(!journal){
             throw Error("Failed to update jornal data")
