@@ -31,7 +31,7 @@ jobs:
             git branch -vv
 
             # Build ulang image Docker
-            docker build -t mental_healt .
+            docker build --no-cache -t mental_healt .
 
             # Stop & remove container lama kalau ada
             docker stop mental_healt-server || true
