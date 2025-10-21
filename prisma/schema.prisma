@@ -93,7 +93,7 @@ model Meditation {
   meditation_id Int      @id @default(autoincrement())
   thumbnailUrl  String
   title         String
-  description   String
+  description   String  
   mediaUrl      String
   duration      Int
   type          MeditationType
