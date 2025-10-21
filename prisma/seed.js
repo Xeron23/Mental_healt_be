@@ -12,7 +12,7 @@ console.log('🌱 Starting database seed...');
   await prisma.meditation.createMany({
     data: [
       // --- ANGER ---
-      {
+    {
         title: 'Calming Anger Meditation 1',
         description: 'Guided meditation to calm anger and bring inner peace.',
         mediaUrl: 'https://youtu.be/jkZOJpZX7lc?si=hqpWYZterEhcOip7',
@@ -84,9 +84,8 @@ console.log('🌱 Starting database seed...');
         duration: getRandomDuration(),
         type: 'meditasi',
       },
-
       // --- JOY ---
-      {
+{
         title: 'Joyful Morning Meditation',
         description: 'Mulai hari dengan sukacita dan hati yang penuh syukur.',
         mediaUrl: 'https://youtu.be/BXD7Mn_Fz1o?si=dNwHNIlpgPcAQrSY',
@@ -151,7 +150,7 @@ console.log('🌱 Starting database seed...');
         type: 'meditasi',
       },
 
-      // --- SAD ---
+// --- SAD ---
       {
         title: 'Healing Sadness',
         description: 'Menenangkan hati dan mengizinkan kesedihan hadir dengan belas kasih.',
