@@ -103,7 +103,7 @@ GROQ_API_KEY=
 ### Clone the Project
 
 ```
-git clone https://github.com/Xeron23/soulspace-be.git
+git clone https://github.com/Xeron23/Mental_healt_be.git
 cd soulspace-be
 ```
 
