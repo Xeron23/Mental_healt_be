@@ -2,10 +2,13 @@ import prisma from "../../config/db.js";
 import BaseError from "../../base_classes/base-error.js";
 
 class MeditateService {
-    async getAll({offset, limit}){
+    async getAll({offset, limit, type}){
         const meditate = await prisma.meditation.findMany({
             skip: offset ?Number(offset) : undefined,
             take: limit ? Number(limit) : undefined,
+            where: {
+                type: type
+            },
             orderBy: {createdAt: "asc"}
         })
 
@@ -116,6 +119,25 @@ class MeditateService {
         }
         return userMeditate;
     }
+
+
+    async search(search_query){
+        const meditation = await prisma.meditation.findMany({
+            where: {
+                OR: [
+                    {title: { contains: search_query, mode: 'insensitive'}},
+                    {description: {contains: search_query, mode: 'insensitive'}}
+                ]
+            }
+        })
+
+        if(!meditation.length){
+            throw BaseError.notFound("Meditaion not found")
+        }
+        return meditation;
+    }
+
+
 }
 
 

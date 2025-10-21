@@ -25,6 +25,15 @@ const getAllFaceSchema = Joi.object({
         .messages({
             'boolean.base': 'month harus berupa boolean',
     }),
+    page: Joi.number().min(1)
+        .messages({
+            "number.min": "Page must be at least 1."
+        }),
+    limit: Joi.number().min(1).max(100)
+        .messages({
+            "number.min": "Limit must be at least 1.",
+            "number.max": "Limit must be at most 100."
+        })
 });
 
 export {faceSchema, getAllFaceSchema};

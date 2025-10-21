@@ -17,6 +17,11 @@ enum QueueStatus {
   played
 }
 
+enum MeditationType {
+  alam
+  meditasi
+}
+
 
 generator client {
   provider = "prisma-client-js"
@@ -88,9 +93,10 @@ model Meditation {
   meditation_id Int      @id @default(autoincrement())
   thumbnailUrl  String
   title         String
-  description   String
+  description   String  
   mediaUrl      String
   duration      Int
+  type          MeditationType
   userMeditations UserMeditation[]
   meditationLike MeditationFavorite[]
   meditationQueue MeditationQueue[]
