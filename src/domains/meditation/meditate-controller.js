@@ -5,11 +5,14 @@ import MeditateService from "./meditate-service.js";
 class MeditateController {
     // get all, get by id, get recommended, get by user id, create
     async show(req, res){
-        const {page=1, limit=10} = req.query;
-        
+        const {page=1, limit=10, type='alam', search= undefined} = req.query;
         const offset = (page - 1) * limit;
-
-        const meditate = await MeditateService.getAll({offset, limit});
+        let meditate;
+        if(search){
+            meditate = await MeditateService.search(search)
+        }else {
+            meditate = await MeditateService.getAll({offset, limit, type});
+        }
 
         return successResponse(res, meditate);
     }
@@ -53,6 +56,7 @@ class MeditateController {
         }
         return successResponse(res, meditate);
     }
+
 }
 
 export default new MeditateController();

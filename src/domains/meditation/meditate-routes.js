@@ -24,6 +24,11 @@ class MeditateRoutes extends BaseRoutes {
     );
 
     this.router.get(
+      "/",
+      [authToken, validateCredentials(getAllMeditateSchema, "query"), tryCatch(meditateController.show)]
+    );
+
+    this.router.get(
       "/user",
       [authToken, tryCatch(meditateController.userMeditations)]
     );
@@ -89,10 +94,7 @@ class MeditateRoutes extends BaseRoutes {
       [authToken, validateCredentials(meditateQueueSchema, "params"), tryCatch(meditateQueueController.delete)]
     );
 
-    this.router.get(
-      "/",
-      [authToken, validateCredentials(getAllMeditateSchema, "query"), tryCatch(meditateController.show)]
-    );
+
 
     this.router.get(
       "/:meditateId",
