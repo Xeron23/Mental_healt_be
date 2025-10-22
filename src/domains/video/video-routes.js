@@ -10,12 +10,12 @@ import { getAllVideoSchema, videoSchema } from "./video-schema.js";
 class VideoRoutes extends BaseRoutes {
     routes(){
         this.router.get("/:id", [
-            authToken,
+            // authToken,
             validateCredentials(videoSchema, "params"),
             tryCatch(VideoController.index)
         ]);
         this.router.get("/", [
-            authToken,
+            // authToken,
             validateCredentials(getAllVideoSchema, "query"),
             tryCatch(VideoController.show)
         ]);
