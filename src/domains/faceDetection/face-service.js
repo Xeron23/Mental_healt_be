@@ -12,14 +12,17 @@ import BaseError from "../../base_classes/base-error.js";
             await deleteImage(data.image_url);
         }
         
-        data.mood = testMood;
+        data.mood = testMood.emotion;
         
         const faceDetect = await prisma.faceDetection.create({
-            data: data
+            data: data,
         });
 
 
-        return faceDetect;
+        return {
+            faceDetect,
+            confident: (testMood.confidence*100)
+        };
     }
 
     async delete(id, user_id){
@@ -116,7 +119,7 @@ import BaseError from "../../base_classes/base-error.js";
                 headers: formData.getHeaders()
             }
         );
-        return mood.data.emotion;
+        return mood.data;
     }
 }
 

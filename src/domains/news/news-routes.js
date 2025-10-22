@@ -9,12 +9,12 @@ import newsSchema from "./news-schema.js";
 class NewsRoutes extends BaseRoutes {
     routes() {
         this.router.get("/:newsId", [
-            authToken,
+            // authToken,
             validateCredentials(newsSchema, "params"),
             tryCatch(newsController.index)
         ]);
         this.router.get("/", [
-            authToken,
+            // authToken,
             tryCatch(newsController.show)
         ]);
     }
