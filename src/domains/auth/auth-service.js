@@ -141,10 +141,13 @@ class AuthService {
         if (!user) {
             return { status: 400, message: "User Not Found" }
         }
-
-        if (user.verifiedAt){
-            return { status: 400, message: "Email already verified" };
-        }
+        
+        // 
+        // if (user.verifiedAt){
+        //     console.log("test verified");
+            
+        //     return { status: 400, message: "Email already verified" };
+        // }
 
         return {status: 200, message: "Password verification successfully", data: user}
     }

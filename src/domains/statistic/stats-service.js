@@ -104,7 +104,8 @@ class StatsService {
             const start = new Date(inputDate);
             start.setHours(0,0,0,0);
             const end = new Date(inputDate);
-            end.setHours(23,59,59,999);
+            end.setDate(end.getDate() + 7);
+            end.setHours(23, 59, 59, 999);
 
             where.createdAt = { gte: start, lte: end };
         }
@@ -121,6 +122,8 @@ class StatsService {
                 }
             })
         ]);
+        console.log(face);
+        
         
 
         let maxCount = Math.max(...face.map(f => f._count.mood));
@@ -147,7 +150,8 @@ class StatsService {
             const start = new Date(inputDate);
             start.setHours(0,0,0,0);
             const end = new Date(inputDate);
-            end.setHours(23,59,59,999);
+            end.setDate(end.getDate() + 7);
+            end.setHours(23, 59, 59, 999);
 
             where.createdAt = { gte: start, lte: end };
         }
@@ -184,12 +188,15 @@ class StatsService {
     }
     
     async generateSummaryStats(mood){
+        console.log(mood);
+        
         const prompt = `
-        Kamu adalah asisten yang membuat ringkasan mood pengguna secara natural dan santai. 
-        Gunakan Bahasa Indonesia, seolah kamu sedang ngobrol dengan pengguna. 
-        Buat kalimat yang menyebutkan semua mood yang ada pada max Moods (hanya dair situ saja), termasuk saran ringan atau tips, misalnya cara menghadapi mood negatif. 
-        Hasil harus ramah, natural, mengalir, dan mudah dibaca, maksimal 50 kata. 
-        Jangan gunakan simbol \n, tanda kutip, atau format markdown. 
+        Kamu adalah asisten yang membuat ringkasan suasana hati pengguna secara natural dan santai. 
+        Gunakan Bahasa Indonesia yang terdengar seperti percakapan ringan. 
+        Buat ringkasan singkat yang hanya berdasarkan mood yang ada pada "Max Moods" (jangan menambah mood lain). 
+        Sertakan sedikit refleksi atau saran ringan yang relevan dengan mood tersebut. 
+        Tulisan harus ramah, alami, mengalir, dan maksimal 50 kata. 
+        Jangan gunakan simbol \\n, tanda kutip, atau format markdown. 
 
         Max Moods: ${JSON.stringify(mood)}
         `;
