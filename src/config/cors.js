@@ -1,7 +1,8 @@
 const allowedOrigins = [
     "http://localhost:3000",
     "http://localhost:3001",
-    "https://soulspace-rust.vercel.app"
+    "https://soulspace-rust.vercel.app",
+    "https://soulspace.xianly.cloud"
 ];
 
 const corsOptions = {
