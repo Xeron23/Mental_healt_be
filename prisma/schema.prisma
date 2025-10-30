@@ -102,7 +102,7 @@ model Meditation {
   meditationQueue MeditationQueue[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-}
+}    
 
 model MeditationFavorite {
   id            Int        @id @default(autoincrement())
