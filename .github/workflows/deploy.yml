@@ -40,7 +40,7 @@ jobs:
             # Run container baru dengan env & expose port
             docker run -d \
               --name mental_healt-server \
-              --network db-network \
+              --network docker-db_db-network \
               -p 3002:3002 \
               -e DATABASE_URL="postgresql://postgres:rootpass@postgres-container-webserver-xeron-a:5432/mental_health_db?schema=public" \
               -e EMAIL_USERNAME="${{ secrets.EMAIL_USERNAME }}" \
