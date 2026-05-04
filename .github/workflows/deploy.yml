@@ -22,7 +22,7 @@ jobs:
           port: ${{secrets.VPS_PORT}}
           timeout: 60s
           script: |
-            cd /opt/Mental_healt_be
+            cd /opt/projects/Mental_healt_be
 
             # Ambil kode terbaru
             git pull origin DEV
